@@ -1,0 +1,4 @@
+/home/kacent/sourceCode/GSDK/build/CMakeFiles/gsdk_basic_example.dir
+/home/kacent/sourceCode/GSDK/build/CMakeFiles/copy_config.dir
+/home/kacent/sourceCode/GSDK/build/CMakeFiles/edit_cache.dir
+/home/kacent/sourceCode/GSDK/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,63 @@
+{
+  "protocol": "socket",
+  "_comment": "simulation = true 仿真环境  false  真机环境",
+  "simulation": true,
+  "drone": {
+    "ip": "192.168.2.32",
+    "port": 9003
+  },
+  "fpv": [
+    {
+      "id": "fpv",
+      "connect_type": "rtsp",
+      "url": "rtsp://admin:admin12345@192.168.1.80:554/mpeg4cif",
+      "description": "FPV 视频流源"
+    },
+    {
+      "id": "fpv3",
+      "connect_type": "rtsp",
+      "default": true,
+      "url": "rtsp://admin:admin12345@192.168.1.239:554/h264/ch1/main/av_stream",
+      "description": "海康"
+    },
+    {
+      "id": "fpv1",
+      "connect_type": "rtsp", 
+      "url": "rtsp://192.168.1.118:8554/stream0",
+      "description": "FPV 视频流源"
+    }
+  ],
+  "gimbals": [
+    {
+      "id": "gimbal1",
+      "connect_type": "quic",
+      "url": "192.168.1.100:4433",
+      "description": "quic"
+    },
+    {
+      "id": "gimbal2",
+      "connect_type": "rtsp",
+      "default": true,
+      "url": "rtsp://admin:admin12345@192.168.1.239:554/h264/ch1/main/av_stream",
+      "description": "海康"
+    },
+    {
+      "id": "gimbal3",
+      "connect_type": "udp",
+      "url": "udp://192.168.1.199:9600",
+      "description": " udp 协议"
+    },
+    {
+      "id": "gimbal4",
+      "connect_type": "tcp",
+      "url": "tcp://192.168.1.100:9700",
+      "description": " tcp 协议"
+    }
+  ],
+  "ja_cloud": {
+    "device_id": "34020000006011138600",
+    "product_key": "zyrFih3kepx",
+    "enabled": false,
+    "cloud_endpoint": "47.96.225.165:31883"
+  }
+}
