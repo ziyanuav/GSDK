@@ -1,5 +1,6 @@
 ## GSDK 接口说明：FlightController / PayloadController / SensorDataManager
-
+具体文档连接:【金山文档 | WPS云文档】 GSDK接口文档
+https://www.kdocs.cn/l/cokPsGElKWux
 本文档基于 `gsdk-example/include/GsdkManager/sdkInterface.h` 中接口声明，说明三类核心控制器的职责、方法含义、参数与返回值约定、典型用法与注意事项。文中涉及的结构体与枚举（如 `Position3D`、`Attitude`、`BatteryInfo`、`SensorData`、`Mission`、`FlightState`、`FlightMode`、`GimbalMode`、`VideoProtocol` 等）均由 SDK 其他头文件定义。
 
 ### 通用约定

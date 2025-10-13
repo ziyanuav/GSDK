@@ -174,13 +174,7 @@ typedef enum
     SENSOR_BATTERY,          // 电池数据
     SENSOR_LOW_FREQUENCY,    // 低频状态数据
     SENSOR_EXTRA,            // 扩展数据
-    SENSOR_VIDEO_ENCODER,    // 视频编码数据
-    SENSOR_ANGULAR_VELOCITY, // 角速度数据
-    SENSOR_ACCELERATION,     // 加速度数据
-    SENSOR_COMPASS,          // 磁罗盘数据
-    SENSOR_RC_STATUS,        // 遥控器状态
-    SENSOR_GNSS_STATUS,      // GNSS状态
-    SENSOR_FLIGHT_STATUS     // 飞行状态
+    SENSOR_VIDEO_ENCODER,    // 视频编码数据 
 } SensorType;
 
 enum class VideoEncoderType
