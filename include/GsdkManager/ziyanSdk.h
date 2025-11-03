@@ -45,18 +45,18 @@ namespace DroneSDK
     };
     enum PointCommand
     {
-        LOITER = 19, // 悬停  p1 悬停时长秒
-        WAYPOINT = 16, // 普通航点
-        SURVEY = 13, // 测绘航点 p1 是否开启拍照1开0关,p2 等距离(单位米)/等时间（单位s），p4 0距离类型1时间类形
-        WAYPOINT_JUMP = 177, // 航点跳转 p1跳转航点,p2跳转次数
-        SPEED_CHANGE = 178, // 飞行速度变更 p2速度 米每秒
-        MOUNT_CONTROL = 205, // 云台控制 p1 俯仰角度，p3 偏移角
-        DIGICAM_SHOT = 203, // 拍照
-        TAKEOFF = 22, // 起飞
+        LOITER = 19,           // 悬停  p1 悬停时长秒
+        WAYPOINT = 16,         // 普通航点
+        SURVEY = 13,           // 测绘航点 p1 是否开启拍照1开0关,p2 等距离(单位米)/等时间（单位s），p4 0距离类型1时间类形
+        WAYPOINT_JUMP = 177,   // 航点跳转 p1跳转航点,p2跳转次数
+        SPEED_CHANGE = 178,    // 飞行速度变更 p2速度 米每秒
+        MOUNT_CONTROL = 205,   // 云台控制 p1 俯仰角度，p3 偏移角
+        DIGICAM_SHOT = 203,    // 拍照
+        TAKEOFF = 22,          // 起飞
         RETURN_TO_LAUNCH = 20, // 返航
-        LAND = 21, // 原地降落
-        CONDITION_YAW = 115 ,// 改变航向
-        LOITER_TURNS=18//周圆飞行  p1 周期数  p3 半径
+        LAND = 21,             // 原地降落
+        CONDITION_YAW = 115,   // 改变航向
+        LOITER_TURNS = 18      // 周圆飞行  p1 周期数  p3 半径
     };
     // 参数值类型
     enum class ParameterValueType
@@ -125,7 +125,8 @@ enum class FlightModeControl
     MANUAL,
     AUTO_MISSION,
     RTH,
-    HOVER
+    HOVER,
+    STOP
 };
 
 enum class VideoProtocol
@@ -167,14 +168,14 @@ struct BatteryInfo
 
 typedef enum
 {
-    SENSOR_POSITION,         // 位置数据
-    SENSOR_ATTITUDE,         // 姿态数据
-    SENSOR_VELOCITY,         // 速度数据
-    SENSOR_HIGH_FREQUENCY,   // 高频传感器数据
-    SENSOR_BATTERY,          // 电池数据
-    SENSOR_LOW_FREQUENCY,    // 低频状态数据
-    SENSOR_EXTRA,            // 扩展数据
-    SENSOR_VIDEO_ENCODER,    // 视频编码数据 
+    SENSOR_POSITION,       // 位置数据
+    SENSOR_ATTITUDE,       // 姿态数据
+    SENSOR_VELOCITY,       // 速度数据
+    SENSOR_HIGH_FREQUENCY, // 高频传感器数据
+    SENSOR_BATTERY,        // 电池数据
+    SENSOR_LOW_FREQUENCY,  // 低频状态数据
+    SENSOR_EXTRA,          // 扩展数据
+    SENSOR_VIDEO_ENCODER,  // 视频编码数据
 } SensorType;
 
 enum class VideoEncoderType
