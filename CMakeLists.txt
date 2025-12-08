@@ -100,7 +100,8 @@ elseif(TARGET_PLATFORM STREQUAL "aarch64")
     set(PLATFORM_LIBS
         ${COMMON_LIBS}
         avcodec avdevice swresample swscale avfilter avformat avutil
-        pthread
+        pthread boost_filesystem-mt-a64 boost_system-mt-a64 boost_atomic-mt-a64
+
     )
 else()
     message(FATAL_ERROR "不支持的平台: ${TARGET_PLATFORM}")

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kacent/sourceCode/GSDK
+CMAKE_SOURCE_DIR = /home/kacent/cppWorkSpace/GSDK
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kacent/sourceCode/GSDK/build
+CMAKE_BINARY_DIR = /home/kacent/cppWorkSpace/GSDK/build
 
 # Utility rule file for copy_config.
 
@@ -67,8 +67,8 @@ include CMakeFiles/copy_config.dir/compiler_depend.make
 include CMakeFiles/copy_config.dir/progress.make
 
 CMakeFiles/copy_config:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kacent/sourceCode/GSDK/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) 复制配置文件到输出目录
-	/usr/bin/cmake -E copy_directory /home/kacent/sourceCode/GSDK/config /home/kacent/sourceCode/GSDK/build/bin/config
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kacent/cppWorkSpace/GSDK/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) 复制配置文件到输出目录
+	/usr/bin/cmake -E copy_directory /home/kacent/cppWorkSpace/GSDK/config /home/kacent/cppWorkSpace/GSDK/build/bin/config
 
 copy_config: CMakeFiles/copy_config
 copy_config: CMakeFiles/copy_config.dir/build.make
@@ -83,6 +83,6 @@ CMakeFiles/copy_config.dir/clean:
 .PHONY : CMakeFiles/copy_config.dir/clean
 
 CMakeFiles/copy_config.dir/depend:
-	cd /home/kacent/sourceCode/GSDK/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kacent/sourceCode/GSDK /home/kacent/sourceCode/GSDK /home/kacent/sourceCode/GSDK/build /home/kacent/sourceCode/GSDK/build /home/kacent/sourceCode/GSDK/build/CMakeFiles/copy_config.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/kacent/cppWorkSpace/GSDK/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kacent/cppWorkSpace/GSDK /home/kacent/cppWorkSpace/GSDK /home/kacent/cppWorkSpace/GSDK/build /home/kacent/cppWorkSpace/GSDK/build /home/kacent/cppWorkSpace/GSDK/build/CMakeFiles/copy_config.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/copy_config.dir/depend
 
