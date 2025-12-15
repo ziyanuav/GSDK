@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/kacent/cppWorkSpace/GSDK/examples/sdk_basic_example.cpp" "CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o" "gcc" "CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o.d"
+  "/home/liu/Project/work/GSDK/examples/sdk_basic_example.cpp" "CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o" "gcc" "CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o.d"
   )
 
 # Targets to which this target links.

@@ -14,7 +14,7 @@
       "id": "fpv",
       "connect_type": "rtsp",
       "default": true,
-      "url": "rtsp://admin123456@192.168.1.81:554/mpeg4cif",
+      "url": "rtsp://admin:123456@192.168.1.81:554/mpeg4cif",
       "description": "FPV 视频流源 (G1 默认)"
     },
     {
@@ -65,7 +65,7 @@
     {
       "id": "gimbal_g1_main",
       "connect_type": "rtsp",
-      "url": "rtsp://admin123456@192.168.1.80:554/mpeg4cif",
+      "url": "rtsp://admin:123456@192.168.1.80:554/mpeg4cif",
       "description": "G1 主镜头吊舱"
     }
   ],
@@ -121,7 +121,7 @@
       "main": [
         {
           "connect_type": "rtsp",
-          "url": "rtsp://admin123456@192.168.1.80:554/mpeg4cif",
+          "url": "rtsp://admin:123456@192.168.1.80:554/mpeg4cif",
           "description": "G1 主镜头",
           "default": true
         }
@@ -129,7 +129,7 @@
       "fpv": [
         {
           "connect_type": "rtsp",
-          "url": "rtsp://admin123456@192.168.1.81:554/mpeg4cif",
+          "url": "rtsp://admin:123456@192.168.1.81:554/mpeg4cif",
           "description": "G1 FPV",
           "default": true
         }
