@@ -4,6 +4,8 @@
 #include <iostream>
 #include <thread>
 #include <atomic>
+#include <fstream>
+#include <cstdint>
 
 using namespace std;
 
@@ -18,7 +20,42 @@ public:
         case SENSOR_VIDEO_ENCODER:
             {
                 const uint32_t bufferSize = sensorData.data.videoData.size;
-                //std::cout << "视频裸数据 bufferSize:" << bufferSize << std::endl;
+                std::cout << "视频裸数据 bufferSize:" << bufferSize << std::endl;
+
+                const VideoEncoderData& videoData = sensorData.data.videoData;
+                static std::ofstream filewrite("swarm_dump_35_rtp.264", std::ios::binary);
+                
+                if (filewrite.is_open() && videoData.buffer != nullptr && videoData.size > 0)
+                {
+                    filewrite.write(reinterpret_cast<const char*>(videoData.buffer), videoData.size);
+                    std::cout << "[SwarmCamera] receive videoData.buffer size:" << videoData.size << std::endl;
+
+                     // ========== 核心：打印 buffer 为十六进制字符串 ==========
+                    std::cout << "[SwarmCamera] videoData.buffer 十六进制内容: ";
+                    // 转换为 uint8_t* 方便逐字节读取（H264 是字节流）
+                    const uint8_t* bufferPtr = reinterpret_cast<const uint8_t*>(videoData.buffer);
+                    // 控制打印长度：避免数据过大刷屏，默认打印前32字节（可自行调整）
+                    const uint32_t printLen = std::min(bufferSize, 32U); 
+                    for (uint32_t i = 0; i < printLen; ++i)
+                    {
+                        // 格式化：两位十六进制，不足补0，大写显示（符合裸流调试习惯）
+                        std::cout << std::hex << std::uppercase << std::setfill('0') << std::setw(2) 
+                                << static_cast<int>(bufferPtr[i]) << " ";
+                    }
+                    // 如果数据超过32字节，提示省略部分
+                    if (bufferSize > printLen)
+                    {
+                        std::cout << "... (省略后续 " << (bufferSize - printLen) << " 字节)";
+                    }
+                    std::cout << std::dec << std::endl;  // 恢复十进制输出格式
+                    // ======================================================
+
+                }
+                else if (!filewrite.is_open())
+                {
+                    std::cout << "[SwarmCamera] filewrite open failed!" << std::endl;
+                }
+
                 break;
             }
         case SENSOR_POSITION:
@@ -53,6 +90,22 @@ public:
                 //       << sensorData.data.battery.voltage << "V 电流=" << sensorData.data.battery.current << "A" << std::endl;
                 break;
             }
+
+        case SENSOR_BATTERIES:
+        {
+            const auto &arr = sensorData.data.batteries;
+            std::cout << "电池数组(count=" << arr.count << "):" << std::endl;
+            for (int i = 0; i < arr.count; ++i)
+            {
+                const auto &b = arr.items[i];
+                std::cout << "  [" << i << "] voltage=" << b.voltage
+                          << "V current=" << b.current
+                          << "A remaining=" << b.percentage
+                          << "% cell_count=" << b.cellCount << std::endl;
+            }
+            break;
+        }
+
 
         case SENSOR_HIGH_FREQUENCY:
             {

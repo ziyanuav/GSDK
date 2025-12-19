@@ -100,7 +100,7 @@ elseif(TARGET_PLATFORM STREQUAL "aarch64")
     set(PLATFORM_LIBS
         ${COMMON_LIBS}
         avcodec avdevice swresample swscale avfilter avformat avutil
-        pthread boost_filesystem-mt-a64 boost_system-mt-a64 boost_atomic-mt-a64
+        pthread boost_filesystem-mt-a64 boost_system-mt-a64 boost_atomic-mt-a64 boost_iostreams
 
     )
 else()

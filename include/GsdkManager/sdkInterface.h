@@ -1,4 +1,4 @@
-#ifndef __ZIYAN_API__
+﻿#ifndef __ZIYAN_API__
 #define __ZIYAN_API__
 
 #include <iostream>
@@ -25,6 +25,7 @@ struct Position3D;
 struct Velocity3D;
 struct Attitude;
 struct BatteryInfo;
+struct BatteryArray;
 struct SensorData;
 struct VideoStreamInfo;
 struct SDKConfig;
@@ -163,7 +164,7 @@ namespace DroneSDK
 		virtual SensorData getCurrentSensorData() = 0;
 		virtual Position3D getCurrentPosition() = 0;
 		virtual Attitude getCurrentAttitude() = 0;
-		virtual BatteryInfo getCurrentBatteryInfo() = 0;
+		virtual BatteryArray getCurrentBatteries() = 0;
 		virtual float getCurrentAltitude() = 0;
 		virtual bool subscribeToSensorData(SensorDataCallback callback, int frequencyHz = 5) = 0;
 		virtual bool unsubscribeFromSensorData() = 0;
@@ -199,7 +200,7 @@ namespace DroneSDK
 	{
 	public:
 		virtual ~BatteryAndLinkManager() = default;
-		virtual BatteryInfo getBatteryInfo() = 0;
+		virtual BatteryArray getBatteries() = 0;
 		virtual float getBatterySOH() = 0; // State of Health
 		virtual float getBatterySOC() = 0; // State of Charge
 		virtual bool isBatteryOverheated() = 0;

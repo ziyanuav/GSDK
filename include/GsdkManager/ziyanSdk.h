@@ -1,4 +1,4 @@
-#ifndef __ZIYAN_SDK_H__
+﻿#ifndef __ZIYAN_SDK_H__
 #define __ZIYAN_SDK_H__
 
 #include <iostream>
@@ -166,13 +166,21 @@ struct BatteryInfo
     int cellCount;
 };
 
+// 多电池信息（固定最大容量，避免在 union 中直接放 STL 容器）
+struct BatteryArray
+{
+    BatteryInfo items[4];
+    int count;
+};
+
 typedef enum
 {
     SENSOR_POSITION,       // 位置数据
     SENSOR_ATTITUDE,       // 姿态数据
-    SENSOR_VELOCITY,       // 速度数据
+    SENSOR_VELOCITY,       // 速度数据dddd
     SENSOR_HIGH_FREQUENCY, // 高频传感器数据
-    SENSOR_BATTERY,        // 电池数据
+    SENSOR_BATTERY,        // 电池数据（单电池，兼容保留）
+    SENSOR_BATTERIES,      // 电池数组（多电池）
     SENSOR_LOW_FREQUENCY,  // 低频状态数据
     SENSOR_EXTRA,          // 扩展数据
     SENSOR_VIDEO_ENCODER,  // 视频编码数据
@@ -191,7 +199,8 @@ enum class VideoNaluType
     PPS,
     IDR,
     NON_IDR,
-    SEI
+    SEI,
+    UNKNOWN
 };
 
 struct VideoEncoderData
@@ -327,7 +336,8 @@ struct SensorData
         struct Position3D position;        // 位置数据（纬度、经度、海拔）
         struct Attitude attitude;          // 姿态数据（roll, pitch, yaw）
         struct Velocity3D velocity;        // 速度数据（vx, vy, vz）
-        struct BatteryInfo battery;        // 电池数据（电压、电流、百分比）
+        struct BatteryInfo battery;        // 电池数据（单电池，兼容）
+        struct BatteryArray batteries;     // 电池数组（多电池）
         struct VideoEncoderData videoData; // 视频编码数据
 
         // 新增的高频和低频数据类型
@@ -366,6 +376,9 @@ struct SensorData
             break;
         case SENSOR_BATTERY:
             new (&data.battery) BatteryInfo(other.data.battery);
+            break;
+        case SENSOR_BATTERIES:
+            new (&data.batteries) BatteryArray(other.data.batteries);
             break;
         case SENSOR_VIDEO_ENCODER:
             new (&data.videoData) VideoEncoderData(other.data.videoData);

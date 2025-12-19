@@ -1,7 +1,7 @@
 {
   "protocol": "socket",
   "_comment": "simulation = true 仿真环境  false  真机环境",
-  "simulation": true,
+  "simulation": false,
   "AppType": "GSDK",
   "_comment_vehicle_mode": "vehicle_mode: single=单机模式, swarm=蜂群模式",
   "vehicle_mode": "single",
@@ -39,9 +39,9 @@
     },
     {
       "id": "gimbal2",
-      "connect_type": "rtsp",
+      "connect_type": "udp",
       "default": true,
-      "url": "rtsp://admin:admin12345@192.168.1.239:554/h264/ch1/main/av_stream",
+      "url": "udp://192.168.1.199:9600",
       "description": "海康"
     },
     {
