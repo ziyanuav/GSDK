@@ -23,7 +23,7 @@ public:
                 std::cout << "视频裸数据 bufferSize:" << bufferSize << std::endl;
 
                 const VideoEncoderData& videoData = sensorData.data.videoData;
-                static std::ofstream filewrite("swarm_dump_35_rtp.264", std::ios::binary);
+                static std::ofstream filewrite("swarm_dump_28_rtp.264", std::ios::binary);
                 
                 if (filewrite.is_open() && videoData.buffer != nullptr && videoData.size > 0)
                 {
