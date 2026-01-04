@@ -227,7 +227,7 @@ public:
  * @brief 键盘输入处理线程函数
  * @param flight 飞行控制器（共享指针，确保线程安全访问）
  */
-void handleKeyboardInput(std::shared_ptr<DroneSDK::FlightController> flight) {
+void handleKeyboardInput(std::shared_ptr<DroneSDK::FlightController> flight, std::shared_ptr<DroneSDK::PayloadController> payload) {
     char input;
     std::cout << "\n===== 操作提示 =====" << std::endl;
     std::cout << "输入 1 : 执行手动模式指令" << std::endl;
@@ -265,6 +265,10 @@ void handleKeyboardInput(std::shared_ptr<DroneSDK::FlightController> flight) {
             flight->guideToPosition(latitude, longitude, altitude);
             std::cout << "输入 6 : 执行指点飞行至某位置指令" << std::endl;
         }
+        else if(input == '7'){
+            payload->modeGimbal(3);  // 执行云台模式切换
+            std::cout << "输入 7 : 执行云台模式切换指令" << std::endl;
+        }
         // 输入q/Q：退出程序
         else if (input == 'q' || input == 'Q') {
             std::cout << "\n[提示] 收到退出指令，程序即将结束..." << std::endl;
@@ -293,13 +297,14 @@ int main() {
     }
 
     auto flight = sdk.getFlightController();
+    auto payload = sdk.getPayloadController();
     if (flight) {
         std::cout << "Flight controller ready" << std::endl;
         //flight->takeOff(200);
     }
 
     // 测试接口，集成时可根据情况删除 --- 创建键盘输入处理线程（分离主线程，避免阻塞SDK事件循环）
-    std::thread inputThread(handleKeyboardInput, flight);
+    std::thread inputThread(handleKeyboardInput, flight, payload);
 
     //std::this_thread::sleep_for(std::chrono::seconds(1));
 

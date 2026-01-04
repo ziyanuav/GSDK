@@ -145,6 +145,7 @@ namespace DroneSDK
 		virtual bool setGimbalAttitude(float pitch, float yaw) = 0;
 		virtual bool calibrateGimbal() = 0;
 		virtual bool resetGimbal() = 0;
+		virtual bool modeGimbal(int mode) = 0;//3:回中  11:正摄
 		virtual bool opticalZoom(float length) = 0;
 		virtual bool opticalSpeedZoom(float speed) = 0;
 		virtual bool digitalZoom(float zoom) = 0;
