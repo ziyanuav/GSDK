@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liu/Project/work/GSDK
+CMAKE_SOURCE_DIR = /home/liu/gsdk/GSDK
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liu/Project/work/GSDK/build
+CMAKE_BINARY_DIR = /home/liu/gsdk/GSDK/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -83,14 +83,14 @@ clean: CMakeFiles/copy_config.dir/clean
 CMakeFiles/gsdk_basic_example.dir/all: CMakeFiles/copy_config.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gsdk_basic_example.dir/build.make CMakeFiles/gsdk_basic_example.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gsdk_basic_example.dir/build.make CMakeFiles/gsdk_basic_example.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/liu/Project/work/GSDK/build/CMakeFiles --progress-num=2,3 "Built target gsdk_basic_example"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/liu/gsdk/GSDK/build/CMakeFiles --progress-num=2,3 "Built target gsdk_basic_example"
 .PHONY : CMakeFiles/gsdk_basic_example.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/gsdk_basic_example.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liu/Project/work/GSDK/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liu/gsdk/GSDK/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/gsdk_basic_example.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liu/Project/work/GSDK/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liu/gsdk/GSDK/build/CMakeFiles 0
 .PHONY : CMakeFiles/gsdk_basic_example.dir/rule
 
 # Convenience name for target.
@@ -109,14 +109,14 @@ CMakeFiles/gsdk_basic_example.dir/clean:
 CMakeFiles/copy_config.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/copy_config.dir/build.make CMakeFiles/copy_config.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/copy_config.dir/build.make CMakeFiles/copy_config.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/liu/Project/work/GSDK/build/CMakeFiles --progress-num=1 "Built target copy_config"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/liu/gsdk/GSDK/build/CMakeFiles --progress-num=1 "Built target copy_config"
 .PHONY : CMakeFiles/copy_config.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/copy_config.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liu/Project/work/GSDK/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liu/gsdk/GSDK/build/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/copy_config.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liu/Project/work/GSDK/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liu/gsdk/GSDK/build/CMakeFiles 0
 .PHONY : CMakeFiles/copy_config.dir/rule
 
 # Convenience name for target.

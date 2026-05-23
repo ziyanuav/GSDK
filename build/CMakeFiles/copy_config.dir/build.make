@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liu/Project/work/GSDK
+CMAKE_SOURCE_DIR = /home/liu/gsdk/GSDK
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liu/Project/work/GSDK/build
+CMAKE_BINARY_DIR = /home/liu/gsdk/GSDK/build
 
 # Utility rule file for copy_config.
 
@@ -67,8 +67,8 @@ include CMakeFiles/copy_config.dir/compiler_depend.make
 include CMakeFiles/copy_config.dir/progress.make
 
 CMakeFiles/copy_config:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/liu/Project/work/GSDK/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) 复制配置文件到输出目录
-	/usr/bin/cmake -E copy_directory /home/liu/Project/work/GSDK/config /home/liu/Project/work/GSDK/build/bin/config
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/liu/gsdk/GSDK/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) 复制配置文件到输出目录
+	/usr/bin/cmake -E copy_directory /home/liu/gsdk/GSDK/config /home/liu/gsdk/GSDK/build/bin/config
 
 copy_config: CMakeFiles/copy_config
 copy_config: CMakeFiles/copy_config.dir/build.make
@@ -83,6 +83,6 @@ CMakeFiles/copy_config.dir/clean:
 .PHONY : CMakeFiles/copy_config.dir/clean
 
 CMakeFiles/copy_config.dir/depend:
-	cd /home/liu/Project/work/GSDK/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liu/Project/work/GSDK /home/liu/Project/work/GSDK /home/liu/Project/work/GSDK/build /home/liu/Project/work/GSDK/build /home/liu/Project/work/GSDK/build/CMakeFiles/copy_config.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/liu/gsdk/GSDK/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/liu/gsdk/GSDK /home/liu/gsdk/GSDK /home/liu/gsdk/GSDK/build /home/liu/gsdk/GSDK/build /home/liu/gsdk/GSDK/build/CMakeFiles/copy_config.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/copy_config.dir/depend
 

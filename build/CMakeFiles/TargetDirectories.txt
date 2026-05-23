@@ -1,4 +1,4 @@
-/home/liu/Project/work/GSDK/build/CMakeFiles/gsdk_basic_example.dir
-/home/liu/Project/work/GSDK/build/CMakeFiles/copy_config.dir
-/home/liu/Project/work/GSDK/build/CMakeFiles/edit_cache.dir
-/home/liu/Project/work/GSDK/build/CMakeFiles/rebuild_cache.dir
+/home/liu/gsdk/GSDK/build/CMakeFiles/gsdk_basic_example.dir
+/home/liu/gsdk/GSDK/build/CMakeFiles/copy_config.dir
+/home/liu/gsdk/GSDK/build/CMakeFiles/edit_cache.dir
+/home/liu/gsdk/GSDK/build/CMakeFiles/rebuild_cache.dir
