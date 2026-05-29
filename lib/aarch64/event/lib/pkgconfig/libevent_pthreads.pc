@@ -1,0 +1,16 @@
+#libevent pkg-config source file
+
+prefix=/home/kc/ziyanproject/zy-cpp-gc/lib/aarch64/event
+exec_prefix=/home/kc/ziyanproject/zy-cpp-gc/lib/aarch64/event
+libdir=/home/kc/ziyanproject/zy-cpp-gc/lib/aarch64/event/lib
+includedir=/home/kc/ziyanproject/zy-cpp-gc/lib/aarch64/event/include
+
+Name: libevent_pthreads
+Description: libevent_pthreads adds pthreads-based threading support to libevent
+Version: 2.1.12
+Requires: libevent
+Conflicts:
+Libs: -L${libdir} -levent_pthreads
+Libs.private:  
+Cflags: -I${includedir} 
+

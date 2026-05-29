@@ -1,0 +1,14 @@
+prefix=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output
+exec_prefix=${prefix}
+libdir=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output/lib
+includedir=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output/include
+
+Name: libswresample
+Description: FFmpeg audio resampling library
+Version: 5.3.100
+Requires: 
+Requires.private: libavutil >= 59.39.100
+Conflicts:
+Libs: -L${libdir}  -lswresample 
+Libs.private: -lm -latomic
+Cflags: -I${includedir}

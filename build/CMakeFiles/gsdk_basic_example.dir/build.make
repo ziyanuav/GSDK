@@ -73,15 +73,15 @@ CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o: CMakeFiles/g
 CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o: ../examples/sdk_basic_example.cpp
 CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o: CMakeFiles/gsdk_basic_example.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liu/gsdk/GSDK/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o"
-	/home/liu/gsdk/GSDK/Tool/bin/aarch64-buildroot-linux-gnu-g++ --sysroot=/home/liu/gsdk/GSDK/Tool/aarch64-buildroot-linux-gnu/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o -MF CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o.d -o CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o -c /home/liu/gsdk/GSDK/examples/sdk_basic_example.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o -MF CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o.d -o CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o -c /home/liu/gsdk/GSDK/examples/sdk_basic_example.cpp
 
 CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.i"
-	/home/liu/gsdk/GSDK/Tool/bin/aarch64-buildroot-linux-gnu-g++ --sysroot=/home/liu/gsdk/GSDK/Tool/aarch64-buildroot-linux-gnu/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liu/gsdk/GSDK/examples/sdk_basic_example.cpp > CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liu/gsdk/GSDK/examples/sdk_basic_example.cpp > CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.i
 
 CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.s"
-	/home/liu/gsdk/GSDK/Tool/bin/aarch64-buildroot-linux-gnu-g++ --sysroot=/home/liu/gsdk/GSDK/Tool/aarch64-buildroot-linux-gnu/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liu/gsdk/GSDK/examples/sdk_basic_example.cpp -o CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liu/gsdk/GSDK/examples/sdk_basic_example.cpp -o CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.s
 
 # Object files for target gsdk_basic_example
 gsdk_basic_example_OBJECTS = \
@@ -92,7 +92,27 @@ gsdk_basic_example_EXTERNAL_OBJECTS =
 
 bin/gsdk_basic_example: CMakeFiles/gsdk_basic_example.dir/examples/sdk_basic_example.cpp.o
 bin/gsdk_basic_example: CMakeFiles/gsdk_basic_example.dir/build.make
-bin/gsdk_basic_example: ../lib/aarch64/libZiyan.so
+bin/gsdk_basic_example: ../lib/x86/OSG365/libOpenThreads.so.21
+bin/gsdk_basic_example: ../lib/x86/OSG365/libosg.so.161
+bin/gsdk_basic_example: ../lib/x86/OSG365/libosgDB.so.161
+bin/gsdk_basic_example: ../lib/x86/OSG365/libosgAnimation.so.161
+bin/gsdk_basic_example: ../lib/x86/OSG365/libosgGA.so.161
+bin/gsdk_basic_example: ../lib/x86/OSG365/libosgViewer.so.161
+bin/gsdk_basic_example: ../lib/x86/OSG365/libosgUtil.so.161
+bin/gsdk_basic_example: ../lib/x86/OSG365/libosgText.so.161
+bin/gsdk_basic_example: ../lib/x86/ffmpeg/libavcodec.so.61
+bin/gsdk_basic_example: ../lib/x86/ffmpeg/libswscale.so.8
+bin/gsdk_basic_example: ../lib/x86/ffmpeg/libavformat.so.61
+bin/gsdk_basic_example: ../lib/x86/ffmpeg/libavutil.so.59
+bin/gsdk_basic_example: ../lib/x86/ffmpeg/libswresample.so.5
+bin/gsdk_basic_example: ../lib/x86/gdal/libgdal.so.36
+bin/gsdk_basic_example: ../lib/x86/ctb/libctb.so
+bin/gsdk_basic_example: ../lib/x86/event/libevent-2.1.so.7
+bin/gsdk_basic_example: ../lib/x86/boost/libboost_filesystem.so.1.86.0
+bin/gsdk_basic_example: ../lib/x86/boost/libboost_iostreams.so.1.86.0
+bin/gsdk_basic_example: ../lib/x86/datachannel/libdatachannel.so.0.21
+bin/gsdk_basic_example: ../lib/x86/mosquitto/libmosquitto.so.1
+bin/gsdk_basic_example: ../lib/x86/libZiyan.so
 bin/gsdk_basic_example: CMakeFiles/gsdk_basic_example.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/liu/gsdk/GSDK/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/gsdk_basic_example"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gsdk_basic_example.dir/link.txt --verbose=$(VERBOSE)

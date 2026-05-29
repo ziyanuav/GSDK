@@ -1,0 +1,16 @@
+#libevent pkg-config source file
+
+prefix=/home/kc/ziyanproject/zy-cpp-gc/lib/aarch64/event
+exec_prefix=/home/kc/ziyanproject/zy-cpp-gc/lib/aarch64/event
+libdir=/home/kc/ziyanproject/zy-cpp-gc/lib/aarch64/event/lib
+includedir=/home/kc/ziyanproject/zy-cpp-gc/lib/aarch64/event/include
+
+Name: libevent
+Description: libevent is an asynchronous notification event loop library
+Version: 2.1.12
+Requires:
+Conflicts:
+Libs: -L${libdir} -levent
+Libs.private: 
+Cflags: -I${includedir}
+

@@ -1,0 +1,14 @@
+prefix=/home/huihui/project/sources/ffmpeg7
+exec_prefix=${prefix}
+libdir=/home/huihui/project/sources/ffmpeg7/lib
+includedir=/home/huihui/project/sources/ffmpeg7/include
+
+Name: libavutil
+Description: FFmpeg utility library
+Version: 59.39.100
+Requires: 
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavutil 
+Libs.private: -pthread -lm -ldrm -latomic -lX11
+Cflags: -I${includedir}

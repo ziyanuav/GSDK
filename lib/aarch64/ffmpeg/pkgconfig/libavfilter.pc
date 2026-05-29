@@ -1,0 +1,14 @@
+prefix=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output
+exec_prefix=${prefix}
+libdir=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output/lib
+includedir=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output/include
+
+Name: libavfilter
+Description: FFmpeg audio/video filtering library
+Version: 10.4.100
+Requires: 
+Requires.private: libswscale >= 8.3.100, libavformat >= 61.7.100, libavcodec >= 61.19.101, libswresample >= 5.3.100, libavutil >= 59.39.100
+Conflicts:
+Libs: -L${libdir}  -lavfilter 
+Libs.private: -pthread -lm -latomic
+Cflags: -I${includedir}

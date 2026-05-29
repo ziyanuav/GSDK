@@ -1,0 +1,14 @@
+prefix=/home/huihui/project/sources/ffmpeg7
+exec_prefix=${prefix}
+libdir=/home/huihui/project/sources/ffmpeg7/lib
+includedir=/home/huihui/project/sources/ffmpeg7/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 61.7.100
+Requires: 
+Requires.private: libavcodec >= 61.19.101, libswresample >= 5.3.100, libavutil >= 59.39.100
+Conflicts:
+Libs: -L${libdir}  -lavformat 
+Libs.private: -lm -latomic -lbz2 -lz
+Cflags: -I${includedir}

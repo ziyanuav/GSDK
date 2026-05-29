@@ -1,0 +1,10 @@
+libdir=/home/panda/zy-workspace/gcs/zy-cpp-gc/3rd/cJSON/install/lib
+includedir=/home/panda/zy-workspace/gcs/zy-cpp-gc/3rd/cJSON/install/include
+
+Name: libcjson
+Version: 1.7.19
+Description: Ultralightweight JSON parser in ANSI C
+URL: https://github.com/DaveGamble/cJSON
+Libs: -L${libdir} -lcjson
+Libs.private: -lm
+Cflags: -I${includedir} -I${includedir}/cjson

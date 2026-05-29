@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(gsdk_example VERSION 1.0.0 LANGUAGES C CXX)
+project(gsdk_example VERSION 1.0.1 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -42,9 +42,23 @@ include_directories(
 set(GSDK_LIB_DIR ${CMAKE_SOURCE_DIR}/lib)
 set(GSDK_LIB_PLATFORM_DIR ${GSDK_LIB_DIR}/${TARGET_PLATFORM})
 
-# 库搜索路径 - 优先使用平台特定目录
+# 库搜索路径 - 与 BUILD_RPATH 子目录保持一致
 link_directories(
     ${GSDK_LIB_PLATFORM_DIR}
+    ${GSDK_LIB_PLATFORM_DIR}/3rd
+    ${GSDK_LIB_PLATFORM_DIR}/boringssl
+    ${GSDK_LIB_PLATFORM_DIR}/boost
+    ${GSDK_LIB_PLATFORM_DIR}/ctb
+    ${GSDK_LIB_PLATFORM_DIR}/event
+    ${GSDK_LIB_PLATFORM_DIR}/event/lib
+    ${GSDK_LIB_PLATFORM_DIR}/pcre2
+    ${GSDK_LIB_PLATFORM_DIR}/quic
+    ${GSDK_LIB_PLATFORM_DIR}/ffmpeg
+    ${GSDK_LIB_PLATFORM_DIR}/OSG365
+    ${GSDK_LIB_PLATFORM_DIR}/gdal
+    ${GSDK_LIB_PLATFORM_DIR}/datachannel
+    ${GSDK_LIB_PLATFORM_DIR}/datachannel/lib
+    ${GSDK_LIB_PLATFORM_DIR}/mosquitto
 )
 
 # 绝对路径定位 Ziyan 主库
@@ -60,48 +74,85 @@ else()
 endif()
 
 # 公共依赖库（与主工程保持一致的最小集合）
-set(COMMON_LIBS
-    ${ZIYAN_ABS_LIB}
-    ssl crypto z curl zip tinyxml2 jaiotcppsdk pcre2-8 sqlite3
-)
+if(TARGET_PLATFORM STREQUAL "aarch64")
+    set(COMMON_LIBS
+        ${ZIYAN_ABS_LIB}
+        ${GSDK_LIB_PLATFORM_DIR}/libssl.so.3
+        ${GSDK_LIB_PLATFORM_DIR}/libcrypto.so.3
+        ${GSDK_LIB_PLATFORM_DIR}/libz.so.1
+        ${GSDK_LIB_PLATFORM_DIR}/libcurl.so.4
+        ${GSDK_LIB_PLATFORM_DIR}/libzip.so.5
+        ${GSDK_LIB_PLATFORM_DIR}/libtinyxml2.so.11
+        ${GSDK_LIB_PLATFORM_DIR}/libjaiotcppsdk.so
+        ${GSDK_LIB_PLATFORM_DIR}/libpcre2-8.so.0
+        ${GSDK_LIB_PLATFORM_DIR}/libsqlite3.so.0
+    )
+else()
+    set(COMMON_LIBS
+        ${ZIYAN_ABS_LIB}
+        ssl crypto z curl zip tinyxml2 jaiotcppsdk pcre2-8 sqlite3
+    )
+endif()
 
-# 追加通过绝对路径的 OSG 与 ffmpeg 关键库（处理无无版本名的情况）
+# 第三方库目录
 set(OSG_DIR ${GSDK_LIB_PLATFORM_DIR}/OSG365)
 set(FFMPEG_DIR ${GSDK_LIB_PLATFORM_DIR}/ffmpeg)
 
-if(EXISTS ${OSG_DIR})
-    file(GLOB OSG_ABS_LIBS
-        ${OSG_DIR}/libOpenThreads.so*
-        ${OSG_DIR}/libosg.so*
-        ${OSG_DIR}/libosgDB.so*
-        ${OSG_DIR}/libosgAnimation.so*
-        ${OSG_DIR}/libosgGA.so*
-        ${OSG_DIR}/libosgViewer.so*
-        ${OSG_DIR}/libosgUtil.so*
-        ${OSG_DIR}/libosgText.so*
-    )
-    message(STATUS "找到 OSG 库: ${OSG_ABS_LIBS}")
-endif()
-
-if(EXISTS ${FFMPEG_DIR})
-    file(GLOB SWRESAMPLE_ABS_LIB ${FFMPEG_DIR}/libswresample.so*)
-    message(STATUS "找到 swresample 库: ${SWRESAMPLE_ABS_LIB}")
-endif()
-
+# libZiyan.so 的传递依赖（部分第三方 .so 内置了错误的 RUNPATH）
+# 通过 --no-as-needed 显式链接，由可执行文件的 RPATH 在启动时优先加载
+set(PRELOAD_LIBS)
 if(TARGET_PLATFORM STREQUAL "x86")
-    set(PLATFORM_LIBS
-        ${COMMON_LIBS}
-        avcodec avdevice swscale avformat avutil
-        ${SWRESAMPLE_ABS_LIB}
-        ${OSG_ABS_LIBS}
-        pthread
+    if(EXISTS ${OSG_DIR})
+        list(APPEND PRELOAD_LIBS
+            ${OSG_DIR}/libOpenThreads.so.21
+            ${OSG_DIR}/libosg.so.161
+            ${OSG_DIR}/libosgDB.so.161
+            ${OSG_DIR}/libosgAnimation.so.161
+            ${OSG_DIR}/libosgGA.so.161
+            ${OSG_DIR}/libosgViewer.so.161
+            ${OSG_DIR}/libosgUtil.so.161
+            ${OSG_DIR}/libosgText.so.161
+        )
+    endif()
+    if(EXISTS ${FFMPEG_DIR})
+        list(APPEND PRELOAD_LIBS
+            ${FFMPEG_DIR}/libavcodec.so.61
+            ${FFMPEG_DIR}/libswscale.so.8
+            ${FFMPEG_DIR}/libavformat.so.61
+            ${FFMPEG_DIR}/libavutil.so.59
+            ${FFMPEG_DIR}/libswresample.so.5
+        )
+    endif()
+    list(APPEND PRELOAD_LIBS
+        ${GSDK_LIB_PLATFORM_DIR}/gdal/libgdal.so.36
+        ${GSDK_LIB_PLATFORM_DIR}/ctb/libctb.so
+        ${GSDK_LIB_PLATFORM_DIR}/event/libevent-2.1.so.7
+        ${GSDK_LIB_PLATFORM_DIR}/boost/libboost_filesystem.so.1.86.0
+        ${GSDK_LIB_PLATFORM_DIR}/boost/libboost_iostreams.so.1.86.0
+        ${GSDK_LIB_PLATFORM_DIR}/datachannel/libdatachannel.so.0.21
+        ${GSDK_LIB_PLATFORM_DIR}/mosquitto/libmosquitto.so.1
     )
 elseif(TARGET_PLATFORM STREQUAL "aarch64")
-    set(PLATFORM_LIBS
-        ${COMMON_LIBS}
-        avcodec avdevice swresample swscale avfilter avformat avutil
-        pthread boost_filesystem-mt-a64 boost_system-mt-a64 boost_atomic-mt-a64 boost_iostreams
+    # ffmpeg 在交叉链接时直接预加载会触发大量 libc 符号检查，改由 RPATH 在目标机运行时加载
+    list(APPEND PRELOAD_LIBS
+        ${GSDK_LIB_PLATFORM_DIR}/event/lib/libevent-2.1.so.7
+        ${GSDK_LIB_PLATFORM_DIR}/datachannel/lib/libdatachannel.so.0.21
+        ${GSDK_LIB_PLATFORM_DIR}/boost/libboost_filesystem-mt-a64.so.1.86.0
+        ${GSDK_LIB_PLATFORM_DIR}/boost/libboost_system-mt-a64.so.1.86.0
+        ${GSDK_LIB_PLATFORM_DIR}/boost/libboost_iostreams.so.1.86.0
+    )
+endif()
+if(PRELOAD_LIBS)
+    message(STATUS "预加载传递依赖库: ${PRELOAD_LIBS}")
+endif()
 
+if(TARGET_PLATFORM STREQUAL "x86" OR TARGET_PLATFORM STREQUAL "aarch64")
+    set(PLATFORM_LIBS
+        -Wl,--no-as-needed
+        ${PRELOAD_LIBS}
+        -Wl,--as-needed
+        ${COMMON_LIBS}
+        pthread
     )
 else()
     message(FATAL_ERROR "不支持的平台: ${TARGET_PLATFORM}")
@@ -117,10 +168,53 @@ add_executable(gsdk_basic_example ${EXAMPLE_SOURCES})
 # 链接 Ziyan 以及平台库
 target_link_libraries(gsdk_basic_example ${PLATFORM_LIBS})
 
-# 运行时查找库路径（无需手动设置 LD_LIBRARY_PATH）
+# 运行时库搜索路径（嵌入可执行文件，无需手动 export LD_LIBRARY_PATH）
+set(GSDK_RUNTIME_RPATH
+    "${GSDK_LIB_PLATFORM_DIR}"
+    "${GSDK_LIB_PLATFORM_DIR}/3rd"
+    "${GSDK_LIB_PLATFORM_DIR}/boringssl"
+    "${GSDK_LIB_PLATFORM_DIR}/boost"
+    "${GSDK_LIB_PLATFORM_DIR}/ctb"
+    "${GSDK_LIB_PLATFORM_DIR}/event"
+    "${GSDK_LIB_PLATFORM_DIR}/event/lib"
+    "${GSDK_LIB_PLATFORM_DIR}/pcre2"
+    "${GSDK_LIB_PLATFORM_DIR}/quic"
+    "${GSDK_LIB_PLATFORM_DIR}/ffmpeg"
+    "${GSDK_LIB_PLATFORM_DIR}/OSG365"
+    "${GSDK_LIB_PLATFORM_DIR}/gdal"
+    "${GSDK_LIB_PLATFORM_DIR}/datachannel"
+    "${GSDK_LIB_PLATFORM_DIR}/datachannel/lib"
+    "${GSDK_LIB_PLATFORM_DIR}/mosquitto"
+)
+string(JOIN ";" GSDK_RUNTIME_RPATH_STR ${GSDK_RUNTIME_RPATH})
+
+# 交叉编译时让链接器解析传递依赖（libc、libz 等）
+if(TARGET_PLATFORM STREQUAL "aarch64" AND CMAKE_CROSSCOMPILING)
+    set(GSDK_RPATH_LINK_DIRS
+        ${CMAKE_SYSROOT}/lib
+        ${CMAKE_SYSROOT}/usr/lib
+        ${GSDK_RUNTIME_RPATH}
+    )
+    foreach(_dir IN LISTS GSDK_RPATH_LINK_DIRS)
+        set(_rpath_link_flags "${_rpath_link_flags} -Wl,-rpath-link,${_dir}")
+    endforeach()
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${_rpath_link_flags}")
+endif()
+
+# 使用 RPATH（非 RUNPATH），以便传递依赖也能找到子目录中的 .so
+set(_gsdk_link_flags "-Wl,--disable-new-dtags")
+if(TARGET_PLATFORM STREQUAL "aarch64" AND CMAKE_CROSSCOMPILING)
+    list(APPEND _gsdk_link_flags
+        "-Wl,--allow-shlib-undefined"
+        "-Wl,--unresolved-symbols=ignore-in-shared-libs"
+    )
+endif()
+string(JOIN " " _gsdk_link_flags_str ${_gsdk_link_flags})
 set_target_properties(gsdk_basic_example PROPERTIES
-    BUILD_RPATH "${GSDK_LIB_PLATFORM_DIR};${GSDK_LIB_PLATFORM_DIR}/3rd;${GSDK_LIB_PLATFORM_DIR}/boost;${GSDK_LIB_PLATFORM_DIR}/ctb;${GSDK_LIB_PLATFORM_DIR}/event;${GSDK_LIB_PLATFORM_DIR}/pcre2;${GSDK_LIB_PLATFORM_DIR}/quic;${GSDK_LIB_PLATFORM_DIR}/ffmpeg;${GSDK_LIB_PLATFORM_DIR}/OSG365"
-    INSTALL_RPATH "${GSDK_LIB_PLATFORM_DIR};${GSDK_LIB_PLATFORM_DIR}/3rd;${GSDK_LIB_PLATFORM_DIR}/boost;${GSDK_LIB_PLATFORM_DIR}/ctb;${GSDK_LIB_PLATFORM_DIR}/event;${GSDK_LIB_PLATFORM_DIR}/pcre2;${GSDK_LIB_PLATFORM_DIR}/quic;${GSDK_LIB_PLATFORM_DIR}/ffmpeg;${GSDK_LIB_PLATFORM_DIR}/OSG365"
+    BUILD_RPATH "${GSDK_RUNTIME_RPATH_STR}"
+    INSTALL_RPATH "${GSDK_RUNTIME_RPATH_STR}"
+    BUILD_WITH_INSTALL_RPATH TRUE
+    LINK_FLAGS "${_gsdk_link_flags_str}"
 )
 
 # 复制配置（如需）

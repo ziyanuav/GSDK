@@ -39,5 +39,4 @@ fi
 # 运行提示
 BIN_PATH="${BUILD_DIR}/bin/gsdk_basic_example"
 echo "Build done. Binary: ${BIN_PATH}"
-echo "If needed, set runtime path:"
-echo "export LD_LIBRARY_PATH=$(pwd)/lib/${TARGET_PLATFORM}:$(pwd)/lib/${TARGET_PLATFORM}/3rd:$(pwd)/lib/${TARGET_PLATFORM}/boost:$(pwd)/lib/${TARGET_PLATFORM}/ctb:$(pwd)/lib/${TARGET_PLATFORM}/event:$(pwd)/lib/${TARGET_PLATFORM}/pcre2:$(pwd)/lib/${TARGET_PLATFORM}/OSG365:$(pwd)/lib/${TARGET_PLATFORM}/ffmpeg:\$LD_LIBRARY_PATH"
+echo "Run directly: ${BIN_PATH}"

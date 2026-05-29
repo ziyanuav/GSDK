@@ -1,137 +1,183 @@
 {
-  "protocol": "socket",
+  "AppType": "GCS",
   "_comment": "simulation = true 仿真环境  false  真机环境",
-  "simulation": false,
-  "AppType": "GSDK",
+  "_comment_quic_test": "quic_test_enabled: true=启用QUIC测试模块, false=禁用（默认）",
+  "_comment_swarm": "蜂群模式配置",
   "_comment_vehicle_mode": "vehicle_mode: single=单机模式, swarm=蜂群模式",
-  "vehicle_mode": "single",
+  "cloud_setting": {
+    "auto_login": true,
+    "password": "admin123",
+    "url": "ws://192.168.5.6:8080/gcs",
+    "username": "admin"
+  },
   "drone": {
     "ip": "192.168.1.40",
     "port": 9003
   },
   "fpv": [
     {
-      "id": "fpv",
       "connect_type": "rtsp",
       "default": true,
-      "url": "rtsp://admin:123456@192.168.1.81:554/mpeg4cif",
-      "description": "FPV 视频流源 (G1 默认)"
+      "description": "FPV 视频流源 (G1 默认)",
+      "id": "fpv",
+      "url": "rtsp://admin:admin12345@192.168.5.239:554/h264/ch1/main/av_stream"
     },
     {
+      "connect_type": "rtsp",
+      "description": "海康",
       "id": "fpv3",
-      "connect_type": "rtsp",
-      "url": "rtsp://admin:admin12345@192.168.1.239:554/h264/ch1/main/av_stream",
-      "description": "海康"
+      "url": "rtsp://admin:admin12345@192.168.1.239:554/h264/ch1/main/av_stream"
     },
     {
-      "id": "fpv1",
       "connect_type": "rtsp",
-      "url": "rtsp://192.168.1.118:8554/stream0",
-      "description": "FPV S3"
+      "description": "FPV S3",
+      "id": "fpv1",
+      "url": "rtsp://192.168.1.118:8554/stream0"
     }
   ],
   "gimbals": [
     {
-      "id": "gimbal1",
       "connect_type": "quic",
-      "url": "192.168.1.100:4433",
-      "description": "quic"
+      "description": "quic",
+      "id": "gimbal1",
+      "url": "192.168.1.100:4433"
     },
     {
-      "id": "gimbal2",
-      "connect_type": "udp",
+      "connect_type": "rtsp",
       "default": true,
-      "url": "udp://192.168.1.199:9600",
-      "description": "海康"
+      "description": "海康",
+      "id": "gimbal2",
+      "url": "rtsp://admin:Admin123@192.168.5.236:554/h265/ch1/main/av_stream"
     },
     {
-      "id": "gimbal3",
       "connect_type": "rtsp",
-      "url": "rtsp://192.168.1.100:554/stream0",
-      "description": "千决"
+      "description": "千决",
+      "id": "gimbal3",
+      "url": "rtsp://192.168.1.100:554/stream0"
     },
     {
-      "id": "gimbal3",
       "connect_type": "udp",
-      "url": "udp://192.168.1.199:9600",
-      "description": " udp 协议"
+      "description": " udp 协议",
+      "id": "gimbal3",
+      "url": "udp://192.168.1.199:9600"
     },
     {
-      "id": "gimbal4",
       "connect_type": "tcp",
-      "url": "tcp://192.168.1.100:9700",
-      "description": " tcp 协议"
+      "description": " tcp 协议",
+      "id": "gimbal4",
+      "url": "tcp://192.168.1.100:9700"
     },
     {
-      "id": "gimbal_g1_main",
       "connect_type": "rtsp",
-      "url": "rtsp://admin:123456@192.168.1.80:554/mpeg4cif",
-      "description": "G1 主镜头吊舱"
+      "description": "G1 主镜头吊舱",
+      "id": "gimbal_g1_main",
+      "url": "rtsp://admin123456@192.168.1.80:554/mpeg4cif"
     }
   ],
   "ja_cloud": {
+    "cloud_endpoint": "47.96.225.165:31883",
     "device_id": "34020000006011138600",
-    "product_key": "zyrFih3kepx",
     "enabled": false,
-    "cloud_endpoint": "47.96.225.165:31883"
+    "product_key": "zyrFih3kepx"
   },
+  "ota": {
+    "_comment": "OTA 升级配置",
+    "auto_check_on_startup": true,
+    "check_interval_hours": 1,
+    "enabled": true,
+    "server_url": "http://gcsota.ziyanuas.cn:9091"
+  },
+  "protocol": "socket",
+  "quic_test_enabled": true,
+  "rid": {
+    "aircraft_classification": 1,
+    "app_id": "e056c668-5f07-419c-88fd-2e1f55de79a1",
+    "app_key": "01782220-2f27-4a56-9120-2c155a3fc16f",
+    "enabled": true,
+    "endpoint": "https://uom.receive.caacic.cn/ridData",
+    "operation_category": 1,
+    "platform": "ZiyanGCS",
+    "product_id": "",
+    "registration_mark": "",
+    "report_interval_sec": 1,
+    "source": 1,
+    "uas_model": "F15",
+    "usc_code": "91440400304050613H"
+  },
+  "simulation": true,
+  "swarm": {
+    "_comment_video_url": "蜂群无人机视频地址（用于向无人机发送开流指令）",
+    "video_url": "rtsp://192.168.1.100:554/stream0"
+  },
+  "vehicle_mode": "swarm",
   "video_profiles": {
-    "S3": {
-      "main": [
+    "F15": {
+      "fpv": [
         {
           "connect_type": "rtsp",
-          "url": "rtsp://192.168.1.118:8554/stream0",
-          "description": "S3 主镜头（千决）",
-          "default": true
+          "default": true,
+          "description": "F15 FPV",
+          "url": "rtsp://admin:123456@192.168.1.80:554/mpeg4cif"
+        }
+      ],
+      "main": [
+        {
+          "connect_type": "udp",
+          "description": "F15 (森云)",
+          "default": true,
+          "url": "udp://192.168.1.199:9600"
         },
         {
-          "connect_type": "udp",
-          "url": "udp://192.168.1.199:9600",
-          "description": "F15 (森云)"
-        }
-      ],
-      "fpv": [
-        {
           "connect_type": "rtsp",
-          "url": "rtsp://192.168.1.118:8554/stream0",
-          "description": "S3 FPV",
-          "default": true
-        }
-      ]
-    },
-    "F15": {
-      "main": [
-        {
-          "connect_type": "udp",
-          "url": "udp://192.168.1.199:9600",
           "description": "F15 (森云)",
-          "default": true
-        }
-      ],
-      "fpv": [
+          "url": "rtsp://192.168.1.160:554/live/track0"
+        },
         {
-          "connect_type": "rtsp",
-          "url": "rtsp://admin:admin12345@192.168.1.80:554/mpeg4cif",
-          "description": "F15 FPV",
-          "default": true
+          "connect_type": "quic",
+          "description": "quic",
+          "id": "gimbal1",
+          "url": "192.168.1.100:4433"
         }
       ]
     },
     "G1": {
-      "main": [
-        {
-          "connect_type": "rtsp",
-          "url": "rtsp://admin:123456@192.168.1.80:554/mpeg4cif",
-          "description": "G1 主镜头",
-          "default": true
-        }
-      ],
       "fpv": [
         {
           "connect_type": "rtsp",
-          "url": "rtsp://admin:123456@192.168.1.81:554/mpeg4cif",
+          "default": true,
           "description": "G1 FPV",
-          "default": true
+          "url": "rtsp://admin:123456@192.168.1.81:554/mpeg4cif"
+        }
+      ],
+      "main": [
+        {
+          "connect_type": "rtsp",
+          "default": true,
+          "description": "G1 主镜头",
+          "url": "rtsp://admin:123456@192.168.1.80:554/mpeg4cif"
+        }
+      ]
+    },
+    "S3": {
+      "fpv": [
+        {
+          "connect_type": "rtsp",
+          "default": true,
+          "description": "S3 FPV",
+          "url": "rtsp://192.168.1.118:8554/stream0"
+        }
+      ],
+      "main": [
+        {
+          "connect_type": "rtsp",
+          "default": true,
+          "description": "S3 主镜头（千决）",
+          "url": "rtsp://192.168.1.100:554/stream0"
+        },
+        {
+          "connect_type": "udp",
+          "description": "F15 (森云)",
+          "url": "udp://192.168.1.199:9600"
         }
       ]
     }
