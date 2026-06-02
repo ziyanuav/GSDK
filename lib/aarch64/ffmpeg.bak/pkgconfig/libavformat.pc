@@ -1,0 +1,14 @@
+prefix=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output
+exec_prefix=${prefix}
+libdir=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output/lib
+includedir=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 61.7.100
+Requires: 
+Requires.private: libavcodec >= 61.19.101, libswresample >= 5.3.100, libavutil >= 59.39.100
+Conflicts:
+Libs: -L${libdir}  -lavformat 
+Libs.private: -lm -latomic -lz
+Cflags: -I${includedir}

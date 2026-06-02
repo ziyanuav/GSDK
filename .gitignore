@@ -1,2 +1,32 @@
-build/*
-/build
+# ===== CMake / 构建输出 =====
+/build/
+
+# ===== 程序运行时生成 =====
+/build/data/
+*.log
+swarm_dump_*.264
+*.h264
+
+# ===== 本地 ffmpeg 构建/备份（Android 旧库等）=====
+#lib/aarch64/.ffmpeg_build_staging/
+#lib/aarch64/ffmpeg.bak/
+#lib/aarch64/ffmpeg.android.bak/
+
+# ===== 本地打包/部署产物 =====
+*.rar
+deploy/
+gsdk-deploy/
+
+# ===== IDE / 编辑器 =====
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# ===== CMake 本地配置 =====
+CMakeUserPresets.json
+compile_commands.json
+
+# 注：.idea/ 当前已被 git 跟踪；若不想提交 IDE 配置，取消下行注释并执行：
+# git rm -r --cached .idea
+# .idea/

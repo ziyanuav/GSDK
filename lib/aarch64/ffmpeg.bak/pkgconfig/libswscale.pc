@@ -1,0 +1,14 @@
+prefix=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output
+exec_prefix=${prefix}
+libdir=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output/lib
+includedir=/home/kc/zy-cpp-gc/3rd/ffmpeg7.1.1/ffmpeg_android_arm64_output/include
+
+Name: libswscale
+Description: FFmpeg image rescaling library
+Version: 8.3.100
+Requires: 
+Requires.private: libavutil >= 59.39.100
+Conflicts:
+Libs: -L${libdir}  -lswscale 
+Libs.private: -lm -latomic
+Cflags: -I${includedir}
