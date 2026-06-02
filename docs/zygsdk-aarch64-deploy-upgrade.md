@@ -129,6 +129,15 @@ chmod +x scripts/build_zygsdk_release.sh
 
 ```text
 dist/zygsdk_2.0.0.7_aarch64.tar.gz
+dist/zygsdk_2.0.0.7_aarch64.tar.gz.md5   # MD5 校验文件（自动生成）
+```
+
+**设备解压前校验（U 盘 / 手动 SCP 场景）：**
+
+```bash
+cd /tmp
+md5sum -c zygsdk_2.0.0.7_aarch64.tar.gz.md5
+tar xzf zygsdk_2.0.0.7_aarch64.tar.gz
 ```
 
 **包内结构：**
@@ -246,9 +255,10 @@ sudo ./install.sh install /opt/zygsdk
 
 **升级策略（默认）：**
 
+- 安装前**自动停止**运行中的 `gsdk_basic_example`（或 systemd 服务 `zygsdk`）
 - 自动备份旧版本到 `/opt/zygsdk_backup/zygsdk_<旧版本>_<时间戳>/`
 - **保留** 原 `config.json` 与 `data/` 目录
-- 可用环境变量控制：`ZYGSDK_KEEP_CONFIG=0` 强制覆盖配置
+- 可用环境变量控制：`ZYGSDK_KEEP_CONFIG=0` 强制覆盖配置；`ZYGSDK_SKIP_STOP=1` 升级时不停止旧进程
 
 ---
 
@@ -381,7 +391,7 @@ readelf -d /opt/zygsdk/lib/aarch64/ffmpeg/libavcodec.so | grep NEEDED
 - [ ] `deploy/device.conf` 已按现场配置 IP/账号
 - [ ] `VERSION` 已更新
 - [ ] `./scripts/build_zygsdk_release.sh` 成功
-- [ ] `dist/zygsdk_*_aarch64.tar.gz` 已生成
+- [ ] `dist/zygsdk_*_aarch64.tar.gz` 及 `.md5` 已生成
 - [ ] ffmpeg 依赖 `libc.so.6`
 
 **安装后（NanoPC-T4）：**

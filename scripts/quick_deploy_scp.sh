@@ -39,8 +39,10 @@ if [[ -z "${VERSION}" ]]; then
 fi
 
 TARBALL="${ROOT_DIR}/dist/zygsdk_${VERSION}_aarch64.tar.gz"
+MD5_FILE="${TARBALL}.md5"
 PKG_NAME="zygsdk_${VERSION}_aarch64"
 REMOTE_TARBALL="$(deploy_remote_path "$(basename "${TARBALL}")")"
+REMOTE_MD5="$(deploy_remote_path "$(basename "${MD5_FILE}")")"
 
 if [[ ! -f "${TARBALL}" ]]; then
   echo "错误: 未找到 ${TARBALL}" >&2
@@ -50,12 +52,20 @@ fi
 echo ""
 echo "==> 上传到 $(deploy_target):${REMOTE_TARBALL}"
 deploy_scp "${TARBALL}" "$(deploy_target):${REMOTE_TARBALL}"
+if [[ -f "${MD5_FILE}" ]]; then
+  echo "==> 上传 MD5: ${MD5_FILE}"
+  deploy_scp "${MD5_FILE}" "$(deploy_target):${REMOTE_MD5}"
+fi
 
 echo ""
-echo "==> 远程解压并安装到 ${INSTALL_DIR} ..."
+echo "==> 远程校验、解压并安装到 ${INSTALL_DIR} ..."
 deploy_ssh bash -s <<EOF
 set -e
 cd "${REMOTE_TMP}"
+if [[ -f $(basename "${MD5_FILE}") ]]; then
+  echo "==> MD5 校验 ..."
+  md5sum -c $(basename "${MD5_FILE}")
+fi
 rm -rf ${PKG_NAME}
 tar xzf $(basename "${REMOTE_TARBALL}")
 cd ${PKG_NAME}

@@ -171,7 +171,31 @@ ssh root@192.168.1.140 'chmod +x /opt/zygsdk/install.sh'
 
 ## 六、部署过程常见提示
 
-### 6.1 tar 时间戳 “in the future”
+### 6.0 MD5 校验
+
+构建后会生成 `zygsdk_x.x.x.x_aarch64.tar.gz.md5`。解压前在设备上执行：
+
+```bash
+cd /tmp
+md5sum -c zygsdk_2.0.0.7_aarch64.tar.gz.md5
+```
+
+`quick_deploy_scp.sh` 会在远程解压前自动校验。
+
+### 6.1 安装前自动停进程
+
+`install.sh install` 默认会先停止：
+
+1. systemd 服务 `zygsdk`（若已注册且运行中）
+2. 否则 `pkill` 匹配 `{安装目录}/bin/gsdk_basic_example` 的进程
+
+跳过停进程：
+
+```bash
+ZYGSDK_SKIP_STOP=1 ./install.sh install /opt/zygsdk
+```
+
+### 6.2 tar 时间戳 “in the future”
 
 **现象（远程解压时）：**
 
@@ -192,7 +216,7 @@ sudo timedatectl set-ntp true
 
 ---
 
-### 6.2 sshpass 未安装
+### 6.3 sshpass 未安装
 
 **现象（开发机部署时）：**
 

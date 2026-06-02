@@ -34,11 +34,11 @@ echo " 项目: ${ROOT_DIR}"
 echo "=========================================="
 
 echo ""
-echo "[1/4] 交叉编译 aarch64 ..."
+echo "[1/5] 交叉编译 aarch64 ..."
 "${ROOT_DIR}/scripts/build_gsdk_example.sh" aarch64 clean
 
 echo ""
-echo "[2/4] 组装部署目录 ..."
+echo "[2/5] 组装部署目录 ..."
 rm -rf "${PKG_DIR}"
 mkdir -p "${PKG_DIR}/bin" "${PKG_DIR}/lib"
 
@@ -116,16 +116,31 @@ cp "${ROOT_DIR}/scripts/device/install_zygsdk.sh" "${PKG_DIR}/install.sh"
 chmod +x "${PKG_DIR}/run.sh" "${PKG_DIR}/setup.sh" "${PKG_DIR}/install.sh"
 
 echo ""
-echo "[3/4] 生成 tar.gz 安装包 ..."
+echo "[3/5] 生成 tar.gz 安装包 ..."
 mkdir -p "${OUTPUT_BASE}"
-rm -f "${TARBALL}"
+rm -f "${TARBALL}" "${TARBALL}.md5"
 tar -C "${STAGING}" -czf "${TARBALL}" "${PKG_NAME}"
 rm -rf "${STAGING}"
 
 echo ""
-echo "[4/4] 完成"
+echo "[4/5] 生成 MD5 校验文件 ..."
+MD5_FILE="${TARBALL}.md5"
+(
+  cd "${OUTPUT_BASE}"
+  md5sum "$(basename "${TARBALL}")" > "$(basename "${MD5_FILE}")"
+)
+PKG_MD5="$(awk '{print $1}' "${MD5_FILE}")"
+echo "    MD5: ${PKG_MD5}"
+echo "    文件: ${MD5_FILE}"
+
+echo ""
+echo "[5/5] 完成"
 echo "  安装包: ${TARBALL}"
+echo "  MD5:    ${MD5_FILE}"
 echo "  大小:   $(du -h "${TARBALL}" | awk '{print $1}')"
+echo ""
+echo "设备解压前校验:"
+echo "  cd /tmp && md5sum -c $(basename "${MD5_FILE}")"
 echo ""
 echo "部署到设备:"
 if [[ -f "${ROOT_DIR}/deploy/device.conf" ]] || [[ -n "${ZYGSDK_DEVICE_HOST:-}" ]]; then
@@ -135,9 +150,9 @@ if [[ -f "${ROOT_DIR}/deploy/device.conf" ]] || [[ -n "${ZYGSDK_DEVICE_HOST:-}" 
   if [[ -n "${DEVICE_HOST:-}" ]]; then
     echo "  一键部署: ./scripts/quick_deploy_scp.sh"
     echo "  或手动:"
-    echo "    scp ${TARBALL} ${DEVICE_USER:-root}@${DEVICE_HOST}:${REMOTE_TMP:-/tmp}/"
+    echo "    scp ${TARBALL} ${TARBALL}.md5 ${DEVICE_USER:-root}@${DEVICE_HOST}:${REMOTE_TMP:-/tmp}/"
     echo "    ssh ${DEVICE_USER:-root}@${DEVICE_HOST}"
-    echo "    cd ${REMOTE_TMP:-/tmp} && tar xzf $(basename "${TARBALL}") && cd ${PKG_NAME} && sudo ./install.sh install ${INSTALL_DIR:-/opt/zygsdk}"
+    echo "    cd ${REMOTE_TMP:-/tmp} && md5sum -c $(basename "${TARBALL}").md5 && tar xzf $(basename "${TARBALL}") && cd ${PKG_NAME} && sudo ./install.sh install ${INSTALL_DIR:-/opt/zygsdk}"
   else
     echo "  1) cp deploy/device.conf.example deploy/device.conf  # 配置 DEVICE_HOST"
     echo "  2) ./scripts/quick_deploy_scp.sh"
