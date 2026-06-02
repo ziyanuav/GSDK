@@ -13,9 +13,12 @@ swarm_dump_*.264
 #lib/aarch64/ffmpeg.android.bak/
 
 # ===== 本地打包/部署产物 =====
+dist/
 *.rar
-deploy/
 gsdk-deploy/
+
+# 本地设备连接配置（含 IP/密码，勿提交）
+#deploy/device.conf
 
 # ===== IDE / 编辑器 =====
 .vscode/

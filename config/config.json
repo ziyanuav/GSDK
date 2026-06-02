@@ -7,7 +7,7 @@
   "cloud_setting": {
     "auto_login": true,
     "password": "admin123",
-    "url": "ws://192.168.5.6:8080/gcs",
+    "url": "ws://192.168.1.155:8093",
     "username": "admin"
   },
   "drone": {
