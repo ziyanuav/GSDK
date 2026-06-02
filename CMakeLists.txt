@@ -73,7 +73,7 @@ else()
     message(WARNING "未找到 libZiyan.so")
 endif()
 
-# 公共依赖库（与主工程保持一致的最小集合）
+# 公共依赖库
 if(TARGET_PLATFORM STREQUAL "aarch64")
     set(COMMON_LIBS
         ${ZIYAN_ABS_LIB}
@@ -99,7 +99,6 @@ set(OSG_DIR ${GSDK_LIB_PLATFORM_DIR}/OSG365)
 set(FFMPEG_DIR ${GSDK_LIB_PLATFORM_DIR}/ffmpeg)
 
 # libZiyan.so 的传递依赖（部分第三方 .so 内置了错误的 RUNPATH）
-# 通过 --no-as-needed 显式链接，由可执行文件的 RPATH 在启动时优先加载
 set(PRELOAD_LIBS)
 if(TARGET_PLATFORM STREQUAL "x86")
     if(EXISTS ${OSG_DIR})
@@ -133,7 +132,6 @@ if(TARGET_PLATFORM STREQUAL "x86")
         ${GSDK_LIB_PLATFORM_DIR}/mosquitto/libmosquitto.so.1
     )
 elseif(TARGET_PLATFORM STREQUAL "aarch64")
-    # ffmpeg 在交叉链接时直接预加载会触发大量 libc 符号检查，改由 RPATH 在目标机运行时加载
     list(APPEND PRELOAD_LIBS
         ${GSDK_LIB_PLATFORM_DIR}/event/lib/libevent-2.1.so.7
         ${GSDK_LIB_PLATFORM_DIR}/datachannel/lib/libdatachannel.so.0.21
@@ -153,22 +151,19 @@ if(TARGET_PLATFORM STREQUAL "x86" OR TARGET_PLATFORM STREQUAL "aarch64")
         -Wl,--as-needed
         ${COMMON_LIBS}
         pthread
+        dl
     )
 else()
     message(FATAL_ERROR "不支持的平台: ${TARGET_PLATFORM}")
 endif()
 
-# 示例源文件（可按需添加更多）
-file(GLOB EXAMPLE_SOURCES
-    ${CMAKE_SOURCE_DIR}/examples/*.cpp
-)
+# 示例源文件
+file(GLOB EXAMPLE_SOURCES ${CMAKE_SOURCE_DIR}/examples/*.cpp)
 
 add_executable(gsdk_basic_example ${EXAMPLE_SOURCES})
-
-# 链接 Ziyan 以及平台库
 target_link_libraries(gsdk_basic_example ${PLATFORM_LIBS})
 
-# 运行时库搜索路径（嵌入可执行文件，无需手动 export LD_LIBRARY_PATH）
+# 运行时库搜索路径
 set(GSDK_RUNTIME_RPATH
     "${GSDK_LIB_PLATFORM_DIR}"
     "${GSDK_LIB_PLATFORM_DIR}/3rd"
@@ -188,7 +183,6 @@ set(GSDK_RUNTIME_RPATH
 )
 string(JOIN ";" GSDK_RUNTIME_RPATH_STR ${GSDK_RUNTIME_RPATH})
 
-# 交叉编译时让链接器解析传递依赖（libc、libz 等）
 if(TARGET_PLATFORM STREQUAL "aarch64" AND CMAKE_CROSSCOMPILING)
     set(GSDK_RPATH_LINK_DIRS
         ${CMAKE_SYSROOT}/lib
@@ -201,7 +195,6 @@ if(TARGET_PLATFORM STREQUAL "aarch64" AND CMAKE_CROSSCOMPILING)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${_rpath_link_flags}")
 endif()
 
-# 使用 RPATH（非 RUNPATH），以便传递依赖也能找到子目录中的 .so
 set(_gsdk_link_flags "-Wl,--disable-new-dtags")
 if(TARGET_PLATFORM STREQUAL "aarch64" AND CMAKE_CROSSCOMPILING)
     list(APPEND _gsdk_link_flags
@@ -217,7 +210,6 @@ set_target_properties(gsdk_basic_example PROPERTIES
     LINK_FLAGS "${_gsdk_link_flags_str}"
 )
 
-# 复制配置（如需）
 add_custom_target(copy_config ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/config ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config
@@ -232,4 +224,3 @@ message(STATUS "平台库目录: ${GSDK_LIB_PLATFORM_DIR}")
 message(STATUS "构建类型: ${CMAKE_BUILD_TYPE}")
 message(STATUS "输出目录: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 message(STATUS "==================================================")
-

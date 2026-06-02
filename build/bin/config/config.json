@@ -1,5 +1,5 @@
 {
-  "AppType": "GCS",
+  "AppType": "GSDK",
   "_comment": "simulation = true 仿真环境  false  真机环境",
   "_comment_quic_test": "quic_test_enabled: true=启用QUIC测试模块, false=禁用（默认）",
   "_comment_swarm": "蜂群模式配置",
@@ -104,12 +104,12 @@
     "uas_model": "F15",
     "usc_code": "91440400304050613H"
   },
-  "simulation": true,
+  "simulation": false,
   "swarm": {
     "_comment_video_url": "蜂群无人机视频地址（用于向无人机发送开流指令）",
     "video_url": "rtsp://192.168.1.100:554/stream0"
   },
-  "vehicle_mode": "swarm",
+  "vehicle_mode": "single",
   "video_profiles": {
     "F15": {
       "fpv": [
