@@ -113,7 +113,10 @@ echo "权限已设置。启动: ${DIR}/run.sh"
 EOF
 
 cp "${ROOT_DIR}/scripts/device/install_zygsdk.sh" "${PKG_DIR}/install.sh"
-chmod +x "${PKG_DIR}/run.sh" "${PKG_DIR}/setup.sh" "${PKG_DIR}/install.sh"
+cp "${ROOT_DIR}/scripts/device/zygsdk.service" "${PKG_DIR}/zygsdk.service"
+cp "${ROOT_DIR}/scripts/device/zygsdk.logrotate" "${PKG_DIR}/zygsdk.logrotate"
+cp "${ROOT_DIR}/scripts/device/setup_service.sh" "${PKG_DIR}/setup_service.sh"
+chmod +x "${PKG_DIR}/run.sh" "${PKG_DIR}/setup.sh" "${PKG_DIR}/install.sh" "${PKG_DIR}/setup_service.sh"
 
 echo ""
 echo "[3/5] 生成 tar.gz 安装包 ..."

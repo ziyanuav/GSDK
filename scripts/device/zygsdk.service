@@ -1,0 +1,25 @@
+[Unit]
+Description=Ziyan GSDK (zygsdk) Service
+Documentation=file:/opt/zygsdk/manifest.txt
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/zygsdk
+ExecStart=/opt/zygsdk/run.sh
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+KillMode=mixed
+
+# 环境（run.sh 已设置 LD_LIBRARY_PATH）
+Environment=ZYGSDK_HOME=/opt/zygsdk
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=zygsdk
+
+[Install]
+WantedBy=multi-user.target

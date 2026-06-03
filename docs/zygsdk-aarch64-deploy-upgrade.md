@@ -292,9 +292,11 @@ sudo cp -a /opt/zygsdk_backup/zygsdk_2.0.0.7_YYYYMMDD_HHMMSS /opt/zygsdk
 
 | 操作 | 命令 |
 |------|------|
-| 启动 | `/opt/zygsdk/run.sh` |
+| 启动 | `sudo systemctl start zygsdk` 或 `/opt/zygsdk/run.sh` |
+| 停止 | `sudo systemctl stop zygsdk` |
+| 服务状态 | `sudo systemctl status zygsdk` |
 | 查看版本 | `cat /opt/zygsdk/VERSION` |
-| 查看日志 | `tail -f /opt/zygsdk/data/logs/*.log` |
+| 查看日志 | 见 [服务管理与日志](zygsdk-service-and-logs.md) |
 | 查看数据库 | `ls /opt/zygsdk/data/zygsdk.db` |
 | 修改配置 | `nano /opt/zygsdk/bin/config/config.json` 后重启 |
 | 检查依赖 | `ldd /opt/zygsdk/bin/gsdk_basic_example` |

@@ -1,0 +1,18 @@
+# 紫燕 GSDK 应用日志轮转
+# 策略：单文件最大 100MB，保留 14 天，每日检查
+# 安装：sudo cp zygsdk.logrotate /etc/logrotate.d/zygsdk
+
+/opt/zygsdk/bin/logs/*.log
+/opt/zygsdk/data/logs/*.log {
+    daily
+    rotate 14
+    size 100M
+    missingok
+    notifempty
+    compress
+    delaycompress
+    dateext
+    dateformat -%Y%m%d
+    copytruncate
+    create 0644 root root
+}
