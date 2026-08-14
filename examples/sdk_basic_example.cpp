@@ -23,7 +23,7 @@ public:
                 std::cout << "视频裸数据 bufferSize:" << bufferSize << std::endl;
 
                 const VideoEncoderData& videoData = sensorData.data.videoData;
-                static std::ofstream filewrite("swarm_dump_28_rtp.264", std::ios::binary);
+                static std::ofstream filewrite("swarm_dump_29_rtp.264", std::ios::binary);
                 
                 if (filewrite.is_open() && videoData.buffer != nullptr && videoData.size > 0)
                 {
@@ -152,6 +152,7 @@ public:
                 std::cout << "飞行模式: " << lf.flight_mode << std::endl;
                 std::cout << "飞行时长: " << lf.fly_time << "秒" << std::endl;
                 std::cout << "飞行距离: " << std::fixed << std::setprecision(1) << lf.fly_distance << "米" << std::endl;
+                std::cout << "当前控制端是否有控制权: " << lf.control_authority_has_control << std::endl;
 
                 break;
             }
@@ -178,6 +179,7 @@ public:
             // std::cout << "飞行状态: " << (ex.get_armed() ? "已解锁" : "未解锁") << " "
             //           << (ex.get_landed_state() ? "在地面" : "飞行中") << " 模式:" << ex.get_flight_mode()
             //           << " 时长:" << ex.get_fly_time() << "秒 距离:" << ex.get_fly_distance() << "m" << std::endl;
+            //std::cout << "当前控制端是否有控制权:: " << ex.get_control_authority_has_control() << std::endl;
 
             break;
         }

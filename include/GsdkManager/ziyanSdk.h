@@ -258,6 +258,7 @@ struct LowFrequencyData
     uint32_t flight_mode;    // 飞行模式
     int fly_time;            // 飞行时长
     double fly_distance;     // 飞行距离
+    bool control_authority_has_control; //是否有控制权
 };
 
 struct ExtraData
@@ -297,6 +298,7 @@ struct ExtraData
     uint32_t get_flight_mode() const { return low_freq.flight_mode; }
     int get_fly_time() const { return low_freq.fly_time; }
     double get_fly_distance() const { return low_freq.fly_distance; }
+    bool get_control_authority_has_control() const {return low_freq.control_authority_has_control;}
 
     // 直接访问方式
     double &ref_home_latitude() { return low_freq.home_latitude; }
@@ -323,6 +325,7 @@ struct ExtraData
     uint32_t &ref_flight_mode() { return low_freq.flight_mode; }
     int &ref_fly_time() { return low_freq.fly_time; }
     double &ref_fly_distance() { return low_freq.fly_distance; }
+    bool &ref_control_authority_has_control() {return low_freq.control_authority_has_control;}
 };
 
 // 基于实际Vehicle数据结构的传感器数据

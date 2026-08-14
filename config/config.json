@@ -1,14 +1,21 @@
 {
   "AppType": "GSDK",
   "_comment": "simulation = true 仿真环境  false  真机环境",
+  "_comment_nest": "nest_enable = true 开启蜂群起飞架模块  false  关闭蜂群起飞架模块",
   "_comment_quic_test": "quic_test_enabled: true=启用QUIC测试模块, false=禁用（默认）",
   "_comment_swarm": "蜂群模式配置",
   "_comment_vehicle_mode": "vehicle_mode: single=单机模式, swarm=蜂群模式",
+  "cloud_box_enable": false,
+  "control_authority": {
+    "_comment": "多地面站控制权配置；收到飞控 30300 控制权状态后，后端默认用本机 GCS 标识与飞控当前控制者对比",
+    "_comment_local_gcs_id": "本机 GCS 标识，支持 A/B/C/D，对应飞控 system id 255/254/253/252",
+    "local_gcs_id": "A"
+  },
   "cloud_setting": {
-    "auto_login": true,
-    "password": "admin123",
-    "url": "ws://192.168.1.155:8093",
-    "username": "admin"
+    "auto_login": false,
+    "password": "Zycs@123456",
+    "url": "ws://117.157.80.50:18895/api/ziyan",
+    "username": "zycs"
   },
   "drone": {
     "ip": "192.168.1.40",
@@ -80,6 +87,15 @@
     "enabled": false,
     "product_key": "zyrFih3kepx"
   },
+  "nest_enable": true,
+  "single_nest_setting": {
+     "single_nest_enabled": false,
+     "host": "localhost",
+     "port": 1883,
+     "username": "ziyan",
+     "password": "12345678",
+     "original_nest_id": "XYJC003"
+  },
   "ota": {
     "_comment": "OTA 升级配置",
     "auto_check_on_startup": true,
@@ -87,29 +103,56 @@
     "enabled": true,
     "server_url": "http://gcsota.ziyanuas.cn:9091"
   },
+  "payload": {
+    "_comment_loudspeaker_state_fallback": "true=地面站播放状态兜底合成到 lspSys; false=lspSys 仅使用硬件 PL/Lsp/Sys 原始状态",
+    "loudspeaker_state_fallback": true
+  },
   "protocol": "socket",
   "quic_test_enabled": true,
   "rid": {
     "aircraft_classification": 1,
     "app_id": "e056c668-5f07-419c-88fd-2e1f55de79a1",
-    "app_key": "01782220-2f27-4a56-9120-2c155a3fc16f",
+    "app_key": "a3d8dfc6-111a-4447-99b8-69e938147557",
     "enabled": true,
     "endpoint": "https://uom.receive.caacic.cn/ridData",
     "operation_category": 1,
     "platform": "ZiyanGCS",
     "product_id": "",
-    "registration_mark": "",
-    "report_interval_sec": 1,
+    "registration_mark": "UAS07750097",
+    "report_interval_ms": 800,
     "source": 1,
     "uas_model": "F15",
     "usc_code": "91440400304050613H"
   },
   "simulation": false,
   "swarm": {
+    "_comment_joystick_idle_rate": "蜂群手控摇杆静止(杆在中位)时的维持发送频率(Hz)，修改后重启生效；过低(如<5)有失控风险，可调高对冲",
+    "_comment_joystick_rate": "蜂群手控摇杆下行发送频率上限(Hz)，修改后重启生效",
     "_comment_video_url": "蜂群无人机视频地址（用于向无人机发送开流指令）",
+    "joystick_idle_rate_hz": 1,
+    "joystick_send_rate_hz": 10,
     "video_url": "rtsp://192.168.1.100:554/stream0"
   },
+  "uom": {
+    "_comment": "UOM 实名登记与激活(GB-46761)。enabled=false 时整个模块不生效(不拦截arm/不强制)。联调与正式环境 URL/id/key 不同，按需修改；实名登记号请通过 /api/uom/registration-mark 录入(存 rid.registration_mark)",
+    "base_url": "https://uom.caac.gov.cn",
+    "cancel_path": "/api/uom/openapi/uavreg/gqb/cancelRegisterFactory",
+    "enabled": false,
+    "producer_id": "017d6be0-a33a-d189-0679-2160bc42a1a3",
+    "report_path": "/api/uom/openapi/uavreg/gqb/reportActiveStateFactory",
+    "secret_key": "adfe17f3-0080-40a8-92c4-09ea78be922c",
+    "sn_override": "",
+    "verify_path": "/api/uom/openapi/uavreg/gqb/verifyRegisterFactory"
+  },
+  "logReport": {
+    "_comment": "日志上报运维系统(POST /api/logs/report)。enabled=false 或 url 为空时接口返回未配置。本次仅预留接口、未实现上传逻辑；运维端点就绪后填入 url 与 auth_token 并置 enabled=true 即启用",
+    "enabled": false,
+    "url": "",
+    "auth_token": ""
+  },
   "vehicle_mode": "single",
+  "vehicle_mode_select": "auto",
+  "_comment_vehicle_mode_select": "manual=前端选择单机/蜂群(默认); auto=开机按 vehicle_mode 自动启动(云盒无界面场景)",
   "video_profiles": {
     "F15": {
       "fpv": [
@@ -123,8 +166,8 @@
       "main": [
         {
           "connect_type": "udp",
-          "description": "F15 (森云)",
           "default": true,
+          "description": "F15 (森云)",
           "url": "udp://192.168.1.199:9600"
         },
         {
