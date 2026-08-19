@@ -5,17 +5,18 @@
   "_comment_quic_test": "quic_test_enabled: true=启用QUIC测试模块, false=禁用（默认）",
   "_comment_swarm": "蜂群模式配置",
   "_comment_vehicle_mode": "vehicle_mode: single=单机模式, swarm=蜂群模式",
+  "_comment_vehicle_mode_select": "manual=前端选择单机/蜂群(默认); auto=开机按 vehicle_mode 自动启动(云盒无界面场景)",
   "cloud_box_enable": false,
-  "control_authority": {
-    "_comment": "多地面站控制权配置；收到飞控 30300 控制权状态后，后端默认用本机 GCS 标识与飞控当前控制者对比",
-    "_comment_local_gcs_id": "本机 GCS 标识，支持 A/B/C/D，对应飞控 system id 255/254/253/252",
-    "local_gcs_id": "A"
-  },
   "cloud_setting": {
     "auto_login": false,
     "password": "Zycs@123456",
     "url": "ws://117.157.80.50:18895/api/ziyan",
     "username": "zycs"
+  },
+  "control_authority": {
+    "_comment": "多地面站控制权配置；收到飞控 30300 控制权状态后，后端默认用本机 GCS 标识与飞控当前控制者对比",
+    "_comment_local_gcs_id": "本机 GCS 标识，支持 A/B/C/D，对应飞控 system id 255/254/253/252",
+    "local_gcs_id": "A"
   },
   "drone": {
     "ip": "192.168.1.40",
@@ -87,15 +88,13 @@
     "enabled": false,
     "product_key": "zyrFih3kepx"
   },
-  "nest_enable": true,
-  "single_nest_setting": {
-     "single_nest_enabled": false,
-     "host": "localhost",
-     "port": 1883,
-     "username": "ziyan",
-     "password": "12345678",
-     "original_nest_id": "XYJC003"
+  "logReport": {
+    "_comment": "日志上报运维系统(POST /api/logs/report)。enabled=false 或 url 为空时接口返回未配置。本次仅预留接口、未实现上传逻辑；运维端点就绪后填入 url 与 auth_token 并置 enabled=true 即启用",
+    "auth_token": "",
+    "enabled": false,
+    "url": ""
   },
+  "nest_enable": true,
   "ota": {
     "_comment": "OTA 升级配置",
     "auto_check_on_startup": true,
@@ -118,13 +117,23 @@
     "operation_category": 1,
     "platform": "ZiyanGCS",
     "product_id": "",
-    "registration_mark": "UAS07750097",
-    "report_interval_ms": 800,
+    "registration_mark": "UAS12345678",
+    "report_interval_ms": 500,
     "source": 1,
     "uas_model": "F15",
     "usc_code": "91440400304050613H"
   },
   "simulation": false,
+  "_comment_mission_progress_mode": "航线进度计算模式：sequence=仅按飞控MISSION_CURRENT航点反馈（默认）；position=按无人机实时位置投影至规划三维航线。修改后重启生效，已开始任务不切换。",
+  "mission_progress_mode": "sequence",
+  "single_nest_setting": {
+    "host": "localhost",
+    "original_nest_id": "XYJC003",
+    "password": "12345678",
+    "port": 1883,
+    "single_nest_enabled": false,
+    "username": "ziyan"
+  },
   "swarm": {
     "_comment_joystick_idle_rate": "蜂群手控摇杆静止(杆在中位)时的维持发送频率(Hz)，修改后重启生效；过低(如<5)有失控风险，可调高对冲",
     "_comment_joystick_rate": "蜂群手控摇杆下行发送频率上限(Hz)，修改后重启生效",
@@ -144,15 +153,8 @@
     "sn_override": "",
     "verify_path": "/api/uom/openapi/uavreg/gqb/verifyRegisterFactory"
   },
-  "logReport": {
-    "_comment": "日志上报运维系统(POST /api/logs/report)。enabled=false 或 url 为空时接口返回未配置。本次仅预留接口、未实现上传逻辑；运维端点就绪后填入 url 与 auth_token 并置 enabled=true 即启用",
-    "enabled": false,
-    "url": "",
-    "auth_token": ""
-  },
   "vehicle_mode": "single",
   "vehicle_mode_select": "auto",
-  "_comment_vehicle_mode_select": "manual=前端选择单机/蜂群(默认); auto=开机按 vehicle_mode 自动启动(云盒无界面场景)",
   "video_profiles": {
     "F15": {
       "fpv": [

@@ -152,7 +152,7 @@ public:
                 std::cout << "飞行模式: " << lf.flight_mode << std::endl;
                 std::cout << "飞行时长: " << lf.fly_time << "秒" << std::endl;
                 std::cout << "飞行距离: " << std::fixed << std::setprecision(1) << lf.fly_distance << "米" << std::endl;
-                std::cout << "当前控制端是否有控制权: " << lf.control_authority_has_control << std::endl;
+                std::cout << "当前控制端是否有控制权(false:无控制权，true：有控制权): " << lf.control_authority_has_control << std::endl;
 
                 break;
             }
@@ -179,7 +179,6 @@ public:
             std::cout << "飞行状态: " << (ex.get_armed() ? "已解锁" : "未解锁") << " "
                       << (ex.get_landed_state() ? "在地面" : "飞行中") << " 模式:" << ex.get_flight_mode()
                       << " 时长:" << ex.get_fly_time() << "秒 距离:" << ex.get_fly_distance() << "m" << std::endl;
-            std::cout << "当前控制端是否有控制权:: " << ex.get_control_authority_has_control() << std::endl;
 
             break;
         }
@@ -271,6 +270,10 @@ void handleKeyboardInput(std::shared_ptr<DroneSDK::FlightController> flight, std
             payload->modeGimbal(3);  // 执行云台模式切换
             std::cout << "输入 7 : 执行云台模式切换指令" << std::endl;
         }
+        else if(input == '8'){
+            flight->takeControlAuthority();
+            std::cout << "输入 8 : 执行当前遥控器端获取控制权切换指令(夺取控制权是否成功，查看属性参数：control_authority_has_control)" << std::endl;
+        }
         // 输入q/Q：退出程序
         else if (input == 'q' || input == 'Q') {
             std::cout << "\n[提示] 收到退出指令，程序即将结束..." << std::endl;
@@ -304,6 +307,8 @@ int main() {
         std::cout << "Flight controller ready" << std::endl;
         //flight->takeOff(200);
     }
+    //备注：目前该版本已经具备AB点控制权切换功能，该GSDK端默认作为B点，默认无控制权（control_authority_has_control），如果需要控制权需要调用接口夺取控制权：flight->takeControlAuthority()
+    //如果需要默认就有控制权，可沟通紫燕技术人员处理
 
     // 测试接口，集成时可根据情况删除 --- 创建键盘输入处理线程（分离主线程，避免阻塞SDK事件循环）
     //std::thread inputThread(handleKeyboardInput, flight, payload);
