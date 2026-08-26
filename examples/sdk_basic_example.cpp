@@ -6,6 +6,7 @@
 #include <atomic>
 #include <fstream>
 #include <cstdint>
+#include <iomanip>
 
 using namespace std;
 
@@ -193,8 +194,8 @@ public:
 
     void onConnectionStatusChanged(bool connected, const std::string &connectionType) override
     {
-        std::cout << "\n=== 连接状态变更 ===" << std::endl;
-        std::cout << "连接状态: " << (connected ? "已连接" : "已断开") << std::endl;
+         std::cout << "\n=== 连接状态变更 ===" << std::endl;
+         std::cout << "连接状态: " << (connected ? "已连接" : "已断开") << std::endl;
     }
 
     void onArmStatusChanged(bool armed) override
@@ -249,7 +250,7 @@ void handleKeyboardInput(std::shared_ptr<DroneSDK::FlightController> flight, std
         }
         else if(input == '3'){
             flight->takeOff(90);  // 执行起飞
-            std::cout << "输入 3 : 执行起飞指令（目标高度200米）" << std::endl;
+            std::cout << "输入 3 : 执行起飞指令（目标高度90米）" << std::endl;
         }
         else if(input == '4'){
             flight->land();  // 执行降落
@@ -273,6 +274,14 @@ void handleKeyboardInput(std::shared_ptr<DroneSDK::FlightController> flight, std
         else if(input == '8'){
             flight->takeControlAuthority();
             std::cout << "输入 8 : 执行当前遥控器端获取控制权切换指令(夺取控制权是否成功，查看属性参数：control_authority_has_control)" << std::endl;
+        }
+        else if(input == '9'){
+            flight->setVirtualStick(0,0,1,0);
+            std::cout << "输入 9 : 向前移动" << std::endl;
+        }
+        else if(input == 'a'){
+            flight->setVirtualStick(0,0,0,0);
+            std::cout << "输入 a : 向前停止" << std::endl;
         }
         // 输入q/Q：退出程序
         else if (input == 'q' || input == 'Q') {

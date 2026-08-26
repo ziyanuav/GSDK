@@ -137,6 +137,7 @@ namespace DroneSDK
 		virtual bool setFlightMode(FlightModeControl mode) = 0;
 		virtual FlightModeControl getCurrentFlightMode() const = 0;
 		virtual bool takeControlAuthority() = 0;
+		virtual bool setGroundJoyStick(float throttle, float yaw, float pitch, float roll) = 0;
 	};
 
 	class PayloadController
