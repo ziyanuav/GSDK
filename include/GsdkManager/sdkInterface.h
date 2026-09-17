@@ -109,6 +109,46 @@ namespace DroneSDK
 
 		// 回调管理
 		virtual void registerParameterChangeCallback(ParameterChangeCallback callback) = 0;
+
+		//读取参数列表
+		virtual void readBatchParamList(const std::vector<std::string>& paramNames, BatchParameterReadCallback callback) = 0;
+
+		//返航高度参数设置（单位：m）
+		virtual void writeRtlAlt(float value, ParameterWriteCallback callback) = 0;
+
+		//最终返航悬停高度（单位：m）
+		virtual void writeRtlAltFinal(float value, ParameterWriteCallback callback) = 0;
+
+		//Gcs通信丢失保护使能开关（isOpen -> true:开启 false：关闭  ； mode -> 1: 任何模式 2:除自动模式）
+		virtual void writeFsGcsEnable(bool isOpen, int mode, ParameterWriteCallback callback) = 0;
+
+		//前向避障开关 (isOpen -> true:开启 false：关闭)
+		virtual void writeAvoidEnable(bool isOpen, ParameterWriteCallback callback) = 0;
+
+		//低电量保护开关(isOpen -> true:开启 false：关闭 ； mode -> 1: 降落 2:返航)
+		virtual void writeBattFsLowAct(bool isOpen, int mode, ParameterWriteCallback callback) = 0;
+
+		// 触发电压阈值
+		virtual void writeBattLowVolt(float value, ParameterWriteCallback callback) = 0;
+
+		// 卫星定位系统类型(0:全频点 1：北斗)
+		virtual void writeGpsType(float value, ParameterWriteCallback callback) = 0;
+
+		// 航点水平巡航速度（单位：m/s）
+		virtual void writeWpnavSpeed(float value, ParameterWriteCallback callback) = 0;
+
+		// 航点上升速度 （单位：m/s）
+		virtual void writeWpnavSpeedUp(float value, ParameterWriteCallback callback) = 0;
+
+		// 航点下降速度 （单位：m/s）
+		virtual void writeWpnavSpeedDn(float value, ParameterWriteCallback callback) = 0;
+
+		//限高开关(isOpen -> true:开启 false：关闭）
+		virtual void writeFenceEnable(bool isOpen, ParameterWriteCallback callback) = 0;
+
+		// 限高飞行数值 （单位：m）
+		virtual void writeFenceAltMax(float value, ParameterWriteCallback callback) = 0;
+
 	};
 	class FlightController
 	{
@@ -158,6 +198,15 @@ namespace DroneSDK
 		virtual bool setCustomWidgetValue(const uint8_t index, const std::string &widget_index, const uint8_t type,
 										  const uint8_t value) = 0;
 		virtual void subscribeGimbalAttitude(std::function<void(const json &)> callback) = 0;
+
+		virtual bool setCamMeasure(bool isOpen) = 0;  //激光测距
+		virtual bool setCamTrack(int track_cmd, int track_mode, float startX, float startY, float endX, float endY) = 0;//框选目标跟踪
+		virtual bool setTtsPlay(std::string ttsText) = 0; //播放TTS语音
+        virtual bool opusOrTtsAudioStop() = 0;            //停止Opus或TTS音频播放
+		virtual bool setOpusAngle(float pitch) = 0;       //设置喊话器云台角度
+		virtual bool setOpusVolume(int volume) = 0;       //设置音量
+		virtual bool setOpusLoopMode(int mode) = 0;       //设置循环模式
+
 	};
 
 	class SensorDataManager

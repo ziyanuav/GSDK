@@ -32,31 +32,41 @@ namespace DroneSDK
         RTL_ALT,         // 返航高度 (cm)
         RTL_ALT_FINAL,   // 最终返航悬停高度 (cm)
         FS_GCS_ENABLE,   // 地面站通信丢失保护使能
+        FS_OPTIONS,      // 启用 GCS 通信丢失时
         BATT_FS_LOW_ACT, // 主电池低电量动作
         BATT_LOW_VOLT,   // 主电池低电压阈值 (V)
+        BATT2_FS_LOW_ACT, // 主电池2低电量动作
+        BATT2_LOW_VOLT,   // 主电池2低电压阈值 (V)
         AVOID_ENABLE,    // 避障功能使能
+        PRX_TYPE,        // 
         AVOID_MARGIN,    // 避障安全距离 (m)
-        WPNAV_SPEED,     // 航点水平巡航速度 (m/s)
-        WPNAV_SPEED_UP,  // 航点上升速度 (m/s)
-        WPNAV_SPEED_DN,  // 航点下降速度 (m/s)
+        GPS_TYPE,        // 卫星定位系统类型
+        WPNAV_SPEED,     // 航点水平巡航速度 (cm/s)
+        WPNAV_SPEED_UP,  // 航点上升速度 (cm/s)
+        WPNAV_SPEED_DN,  // 航点下降速度 (cm/s)
+        FENCE_ENABLE,
+        FENCE_TYPE,
+        FENCE_ALT_ACT,    
+        FENCE_ALT_MAX,   // 飞行限制高度
         MAG_ENABLE,      // 磁力计使能
         COMPASS_CAL_FIT, // 磁力计校准适合度
         UNKNOWN
     };
     enum PointCommand
     {
-        LOITER = 19,           // 悬停  p1 悬停时长秒
+        LOITER = 19,           // 悬停  p1:悬停时长秒
         WAYPOINT = 16,         // 普通航点
-        SURVEY = 13,           // 测绘航点 p1 是否开启拍照1开0关,p2 等距离(单位米)/等时间（单位s），p4 0距离类型1时间类形
-        WAYPOINT_JUMP = 177,   // 航点跳转 p1跳转航点,p2跳转次数
-        SPEED_CHANGE = 178,    // 飞行速度变更 p2速度 米每秒
-        MOUNT_CONTROL = 205,   // 云台控制 p1 俯仰角度，p3 偏移角
+        SURVEY = 13,           // 测绘航点 p1 是否开启拍照（1：开，0：跟随上一个，2：关）,p2 等距离(单位米)/等时间（单位s），p4 （0：距离类型1：时间类形）
+        WAYPOINT_JUMP = 177,   // 航点跳转 p1:跳转航点index,p2:跳转次数
+        SPEED_CHANGE = 178,    // 飞行速度变更 p2：速度)(米每秒)
+        MOUNT_CONTROL = 205,   // 云台姿态控制 p1:俯仰角度，p3：偏移角
         DIGICAM_SHOT = 203,    // 拍照
         TAKEOFF = 22,          // 起飞
         RETURN_TO_LAUNCH = 20, // 返航
         LAND = 21,             // 原地降落
-        CONDITION_YAW = 115,   // 改变航向
-        LOITER_TURNS = 18      // 周圆飞行  p1 周期数  p3 半径
+        CONDITION_YAW = 115,   // 改变航向 p1:航向角度
+        LOITER_TURNS = 18,      // 周圆飞行  p1:周期数  p3:半径
+        COMMAND_SPLINE_WAYPOINT = 82   // 曲线航点 
     };
     // 参数值类型
     enum class ParameterValueType
@@ -91,6 +101,12 @@ namespace DroneSDK
         std::chrono::steady_clock::time_point timestamp;
     };
 
+    struct BatchParameterReadResult
+    {
+        std::vector<ParameterStatus> statusList;
+    };
+
+    using BatchParameterReadCallback = std::function<void(const BatchParameterReadResult&)>;
     // 回调函数类型定义
     using ParameterReadCallback = std::function<void(const ParameterStatus &)>;
     using ParameterWriteCallback = std::function<void(const ParameterStatus &)>;
@@ -126,7 +142,8 @@ enum class FlightModeControl
     AUTO_MISSION,
     RTH,
     HOVER,
-    STOP
+    STOP,
+    LAND
 };
 
 enum class VideoProtocol
@@ -412,10 +429,14 @@ struct MissionPoint
 
 struct Mission
 {
-    std::vector<MissionPoint> waypoints;
-    float cruiseSpeed;
-    float finishedAction;
-    bool exitMissionOnRCSignalLost;
+    std::string routeType;                 // `waypoint` 普通航点航线，`polygon` 建图航线，`corridor` 带状航线，`circleCruise` 圆周巡航
+    std::vector<MissionPoint> waypoints; 
+    std::string finishedAction;            // 完成动作：STRAIGHT_RETURN` 直线返航；`ORIGINAL_RETURN` 原路返航；`LAND` 降落；
+    float takeoffHeight;                   // 起飞高度 (0～4000米)
+    std::string referAlt;                  // 高度参考 `RA_ALTITUDE` 相对高度；`AL_ALTITUDE` 海拔高度；`RA_TERRAIN` 地形高度 |
+    float descentSpeed;                    // 下降速度 (0.1～5 m/s)
+    float ascentSpeed;                     // 上升速度 (0.1～5 m/s)
+    float horiSpeed;                       // 水平速度 (0.1～25 m/s)
 };
 
 struct FlightState
