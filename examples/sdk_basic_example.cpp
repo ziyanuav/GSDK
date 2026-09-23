@@ -708,8 +708,7 @@ int main() {
     std::cout << "========================================" << std::endl;
 
     std::cout << "请设置授权码 License code" << std::endl;
-    //std::string licenseCode = "ZIYAN_GSDK_LICENSE_CODE";
-    std::string licenseCode = "OFL-kXc5iEZnGZ1y0K3QYI4LSLHgc6uzNpLFoJrF5T21PsVHW9XZ0D1raqEvj_x9kQ3VSRp88xOORowDg2qc1pSQl8OwK6MW6Me1RY7ZH3AG-PDf0bSF_3GRmfMiXQsfNeDEz_qzElCLcMRXGIsXyyj3mAPZSDbExHJD2iDcDetAP8641NrnlUyL5ijKvcdL2xtbwgfg5_MEUsg2zJpADnSe9FNORJe-qhszYyi5CDd0J0-XqD9deuMJnpGIk826fSf7_6yVS-E-hCIuvtVXdAixHg";
+    std::string licenseCode = "ZIYAN_GSDK_LICENSE_CODE";
     sdk.setLicenseCode(licenseCode.c_str());
 
     if (!sdk.initializeWithConfig(config)) {
