@@ -7,6 +7,7 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include <cstdint>
 #include <nlohmann/json.hpp>
 
 using namespace std;
@@ -518,6 +519,8 @@ namespace DroneSDK
         bool autoConnect;
         std::string cloudEndpoint;
         std::string cloudToken;
+        std::string licenseCode;
+        std::uint32_t sessionCorrelationSeed = 0;
         std::shared_ptr<::EventListener> eventLoopHandler;
     };
     class ZiyanSdk
@@ -539,6 +542,9 @@ namespace DroneSDK
         std::shared_ptr<FlightParameterManager> getFlightParameterController();
         std::string getLastError() const;
         std::string getDeviceSerialNumber() const;
+        std::string getLicenseDeviceId() const;
+        void setLicenseCode(const std::string &code);
+        void clearLicenseCode();
 
     private:
         std::unique_ptr<SDKCore> sdkCore;
