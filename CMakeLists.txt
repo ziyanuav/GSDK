@@ -55,6 +55,7 @@ link_directories(
     ${GSDK_LIB_PLATFORM_DIR}/quic
     ${GSDK_LIB_PLATFORM_DIR}/ffmpeg
     ${GSDK_LIB_PLATFORM_DIR}/OSG365
+    ${GSDK_LIB_PLATFORM_DIR}/OSG365/3rd
     ${GSDK_LIB_PLATFORM_DIR}/gdal
     ${GSDK_LIB_PLATFORM_DIR}/datachannel
     ${GSDK_LIB_PLATFORM_DIR}/datachannel/lib
@@ -176,6 +177,7 @@ set(GSDK_RUNTIME_RPATH
     "${GSDK_LIB_PLATFORM_DIR}/quic"
     "${GSDK_LIB_PLATFORM_DIR}/ffmpeg"
     "${GSDK_LIB_PLATFORM_DIR}/OSG365"
+    "${GSDK_LIB_PLATFORM_DIR}/OSG365/3rd"
     "${GSDK_LIB_PLATFORM_DIR}/gdal"
     "${GSDK_LIB_PLATFORM_DIR}/datachannel"
     "${GSDK_LIB_PLATFORM_DIR}/datachannel/lib"
@@ -183,17 +185,20 @@ set(GSDK_RUNTIME_RPATH
 )
 string(JOIN ";" GSDK_RUNTIME_RPATH_STR ${GSDK_RUNTIME_RPATH})
 
+# 链接期库搜索路径：ld 解析 .so 的 DT_NEEDED 只认 -rpath-link/-rpath/LD_LIBRARY_PATH，不认 -L
 if(TARGET_PLATFORM STREQUAL "aarch64" AND CMAKE_CROSSCOMPILING)
     set(GSDK_RPATH_LINK_DIRS
         ${CMAKE_SYSROOT}/lib
         ${CMAKE_SYSROOT}/usr/lib
         ${GSDK_RUNTIME_RPATH}
     )
-    foreach(_dir IN LISTS GSDK_RPATH_LINK_DIRS)
-        set(_rpath_link_flags "${_rpath_link_flags} -Wl,-rpath-link,${_dir}")
-    endforeach()
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${_rpath_link_flags}")
+else()
+    set(GSDK_RPATH_LINK_DIRS ${GSDK_RUNTIME_RPATH})
 endif()
+foreach(_dir IN LISTS GSDK_RPATH_LINK_DIRS)
+    set(_rpath_link_flags "${_rpath_link_flags} -Wl,-rpath-link,${_dir}")
+endforeach()
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${_rpath_link_flags}")
 
 set(_gsdk_link_flags "-Wl,--disable-new-dtags")
 if(TARGET_PLATFORM STREQUAL "aarch64" AND CMAKE_CROSSCOMPILING)

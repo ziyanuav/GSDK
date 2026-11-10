@@ -1,7 +1,9 @@
 {
   "AppType": "GSDK",
   "_comment": "simulation = true 仿真环境  false  真机环境",
+  "_comment_mission_progress_mode": "航线进度计算模式：sequence=仅按飞控MISSION_CURRENT航点反馈（默认）；position=按无人机实时位置投影至规划三维航线。修改后重启生效，已开始任务不切换。",
   "_comment_nest": "nest_enable = true 开启蜂群起飞架模块  false  关闭蜂群起飞架模块",
+  "_comment_match_code": "match_code_enable = true 一键唤醒需校验匹配码  false 一键唤醒广播下发、不校验匹配码",
   "_comment_quic_test": "quic_test_enabled: true=启用QUIC测试模块, false=禁用（默认）",
   "_comment_swarm": "蜂群模式配置",
   "_comment_vehicle_mode": "vehicle_mode: single=单机模式, swarm=蜂群模式",
@@ -9,18 +11,56 @@
   "cloud_box_enable": false,
   "cloud_setting": {
     "auto_login": false,
-    "password": "Zycs@123456",
-    "url": "ws://117.157.80.50:18895/api/ziyan",
-    "username": "zycs"
+    "password": "",
+    "url": "",
+    "username": ""
   },
   "control_authority": {
-    "_comment": "多地面站控制权配置；收到飞控 30300 控制权状态后，后端默认用本机 GCS 标识与飞控当前控制者对比",
-    "_comment_local_gcs_id": "本机 GCS 标识，支持 A/B/C/D，对应飞控 system id 255/254/253/252",
+    "_comment": "传统直连链路的多地面站控制权配置；辅控 WSS 链路改用注册 SN，不读取本配置",
+    "_comment_local_gcs_id": "传统 MAVLink 30300 链路的本机 GCS 标识，支持 A/B/C/D，对应飞控 system id 255/254/253/252",
     "local_gcs_id": "A"
   },
-  "drone": {
-    "ip": "192.168.1.40",
-    "port": 9003
+  "cert_platform": {
+    "_comment_url": "证书管理平台基地址（zy-cert-platform 设备端 API，无末尾斜杠）",
+    "_comment_credential": "本机预共享设备凭证，平台侧产线初始化发放",
+    "_comment_insecure_tls": "平台自签证书时临时跳过 TLS 校验（仅内网排障用，默认严禁开启）",
+    "_comment_min_aux_firmware_version": "最低飞控/辅控固件版本(x.y.z，正则提取比较；空=不检查)。低于则推送 auxFirmwareTooLow 事件提醒用户升级辅控（仅提示，不拦截流程）",
+    "min_aux_firmware_version": "",
+    "url": "http://127.0.0.1:8443",
+    "credential": "ce4fdd75e8333d0db10d419c5a7bd745d0875ad4c97a0fe53fe8c575130a50b0",
+    "insecure_tls": false,
+    "_comment": "证书平台对接：仅由前端 syncCertificate 手动触发按 SN 下载既有证书包、部署及下发；GCS 不申领、不签发；url+credential 配齐后可用"
+  },
+  "flight_link": {
+    "_comment_default_mode": "单机飞控链路默认模式：udp 或 aux_wss；数据库已保存设置优先",
+    "_comment_udp": "飞控 UDP 直连端点",
+    "_comment_wss": "飞控 WebSocket 中转端点；use_tls=false 时使用 ws_port",
+    "default_mode": "udp",
+    "udp": {
+      "host": "192.168.1.40",
+      "port": 9003
+    },
+    "wss": {
+      "certs": {
+        "ca_bundle": "config/certs/ca_bundle.crt",
+        "client_cert": "config/certs/client.crt",
+        "client_key": "config/certs/client.key",
+        "key_password_file": "config/certs/key_password",
+        "verify_hostname": false
+      },
+      "default_uplink_topic": "FC/Cmd",
+      "gcs": {
+        "name": "GCS",
+        "sn": "",
+        "type": 0,
+        "version": "2.0.4"
+      },
+      "host": "192.168.1.118",
+      "port": 9901,
+      "subprotocol": "MavlinkRelay",
+      "use_tls": false,
+      "ws_port": 9900
+    }
   },
   "fpv": [
     {
@@ -94,7 +134,16 @@
     "enabled": false,
     "url": ""
   },
+  "mission_progress_mode": "sequence",
   "nest_enable": true,
+  "match_code_enable": false,
+  "mapdem": {
+    "_comment": "自建高程数据服务器(下载优先源)：enabled=false 或无此节时仅用地理局 gscloud；公司服务器请求失败且 fallback_gscloud=true 时自动回退 gscloud",
+    "enabled": true,
+    "server_url": "http://192.168.4.22:8000",
+    "fallback_gscloud": true,
+    "timeout_s": 10
+  },
   "ota": {
     "_comment": "OTA 升级配置",
     "auto_check_on_startup": true,
@@ -102,9 +151,37 @@
     "enabled": true,
     "server_url": "http://gcsota.ziyanuas.cn:9091"
   },
+  "aircraft_firmware": {
+    "_comment": "飞机固件(大脑+小脑)OTA升级配置：GCS 从OTA服务器下载固件包后转发上传到飞机大脑 managerWebsite 触发升级",
+    "_comment_server_url": "OTA服务器地址，空则回退 ota.server_url；本地联调时平台以 PORT=19090 启动",
+    "_comment_device_type": "OTA平台设备型号(如 GWG1)，空则自动从飞机机架号产品型号段解出",
+    "_comment_brain": "brain 为飞机大脑 managerWebsite 连接配置；host 空则回退 flight_link.wss.host",
+    "enabled": true,
+    "server_url": "http://gcsota.ziyanuas.cn:9091",
+    "device_type": "",
+    "download_dir": "",
+    "keep_downloaded_after_upgrade": true,
+    "brain": {
+      "host": "",
+      "port": 8080,
+      "request_timeout_sec": 10,
+      "connect_timeout_sec": 10,
+      "low_speed_limit": 1024,
+      "low_speed_time_sec": 30,
+      "upload_timeout_sec": 1800,
+      "verify_timeout_sec": 1800,
+      "upgrade_timeout_sec": 3600,
+      "poll_interval_ms": 400,
+      "progress_report_ms": 500
+    }
+  },
   "payload": {
     "_comment_loudspeaker_state_fallback": "true=地面站播放状态兜底合成到 lspSys; false=lspSys 仅使用硬件 PL/Lsp/Sys 原始状态",
     "loudspeaker_state_fallback": true
+  },
+  "payload_link": {
+    "_comment_subprotocol": "载荷连接复用 flight_link.wss 端点和证书，仅配置载荷专属子协议",
+    "subprotocol": "Json"
   },
   "protocol": "socket",
   "quic_test_enabled": true,
@@ -124,8 +201,6 @@
     "usc_code": "91440400304050613H"
   },
   "simulation": false,
-  "_comment_mission_progress_mode": "航线进度计算模式：sequence=仅按飞控MISSION_CURRENT航点反馈（默认）；position=按无人机实时位置投影至规划三维航线。修改后重启生效，已开始任务不切换。",
-  "mission_progress_mode": "sequence",
   "single_nest_setting": {
     "host": "localhost",
     "original_nest_id": "XYJC003",
@@ -225,6 +300,27 @@
           "url": "udp://192.168.1.199:9600"
         }
       ]
+    }
+  },
+  "situation": {
+    "_comment": "态势服务本机桥（sitd）：enabled=false 时 GCS 行为与现状完全一致；zenohWs=前端直连 zenoh 的可选订阅通道（需 zenoh-bridge-remote-api --ws-port）",
+    "enabled": false,
+    "url": "ws://192.168.5.21:8093",
+    "video_url": "ws://192.168.5.21:8094",
+    "token": "CHANGE_ME",
+    "client_id": "gcs-A",
+    "zenohWs": "ws://192.168.5.21:10000"
+  },
+  "media_file": {
+    "_comment": "媒体文件管理文件源协议：protocol=psdk（默认，PSDK WebSocket 发现 + 媒体 TCP）| ftp（直连无人机端 FTP 媒体服务器）。前端 WS 接口两种模式完全一致",
+    "protocol": "ftp",
+    "ftp": {
+      "ip": "192.168.1.100",
+      "port": 21,
+      "user": "root",
+      "password": "",
+      "root_path": "/tmp/SD0",
+      "connect_timeout_sec": 5
     }
   }
 }

@@ -712,8 +712,12 @@ int main() {
     sdk.setLicenseCode(licenseCode.c_str());
 
     if (!sdk.initializeWithConfig(config)) {
-        std::cerr << "SDK init failed: " << sdk.getLastError() << std::endl;
+        std::cerr << "==================SDK init failed (SDK初始化失败): " << sdk.getLastError() << "==============================" << std::endl;
         return -1;
+    }
+    else
+    {
+        std::cout << "==================SDK init Succeeded(SDK初始化成功)===========================" << std::endl;
     }
 
     auto SDKManagerImpl = sdk.getSDKManager();

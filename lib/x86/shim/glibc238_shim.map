@@ -1,0 +1,20 @@
+/* glibc238_shim.map — 垫片导出版本节点
+ *
+ * lib/x86 预编译库（ffmpeg 7.x / libctb）以版本引用 GLIBC_2.38 / GLIBCXX_3.4.32，
+ * 在 glibc 2.35 基线（ubuntu:22.04，见 Dockerfile.base）上无法满足。
+ * 这里以同名版本节点导出转发实现，使链接期检查与运行期版本匹配均通过。
+ */
+GLIBC_2.38 {
+  global:
+    __isoc23_sscanf;
+    __isoc23_strtol;
+    fmod;
+    fmodf;
+  local:
+    *;
+};
+
+GLIBCXX_3.4.32 {
+  global:
+    _ZSt21ios_base_library_initv;
+};
